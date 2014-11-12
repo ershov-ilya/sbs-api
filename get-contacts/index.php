@@ -35,11 +35,11 @@ $env = 'suite7';
 ------------------------------------------------------------------- */
 $uri = "contact/getdata";
 
-$list= file('../config/list3.txt', FILE_IGNORE_NEW_LINES);
+/*$list= file('../config/list3.txt', FILE_IGNORE_NEW_LINES);
 //print_r($list);
 /**/
-/*
-$list=array("bezruchko1999@bk.ru", "vahrushevo-os@yandex.ru");
+
+$list=array("a_s_w_4@mail.ru", "irishapo@gmail.com");
 print_r($list);
 /**/
 
@@ -56,10 +56,11 @@ if(!empty($resp->data->errors))
     print_r($resp->data->errors);
 }
 
-//print_r($resp->data->result);
+print_r($resp->data->result);
 
 /* Разбор по id;email
  * ------------------------------------------------- */
+/*
 $res=$resp->data->result;
 $i=0;
 foreach($res as $row)
@@ -71,4 +72,6 @@ foreach($res as $row)
     $i++;
 //    if($i>10) break;
 }
+
+
 /**/
