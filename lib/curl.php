@@ -4,10 +4,10 @@
  * Author: ershov-ilya
  * Website: http://ershov.pw/
  * Date: 13.01.2015
- * Time: 14:24
+ * Time: 16:17
  */
 
-function filter_content($url, $data){
+function CURL($url, $data){
     $ch = curl_init($url);
 
     //curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
@@ -21,4 +21,3 @@ function filter_content($url, $data){
     $output = curl_exec($ch);
     return  $output;
 }
-

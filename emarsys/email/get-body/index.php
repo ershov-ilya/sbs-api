@@ -25,8 +25,8 @@ else
 
 /* CONFIG
 ------------------------------------------------------------------- */
-require('../../config/api.config.php');
-require('../lib/post.php');
+require('../../../config/api.config.php');
+require('../../lib/post.php');
 //require('../lib/put.php');
 
 //$key='mfpa';
