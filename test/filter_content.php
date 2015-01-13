@@ -12,7 +12,7 @@ header('Content-Type: text/plain; charset=utf-8');
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
-require('../emarsys/lib/filter_content.php');
+require('../lib/filter_content.php');
 
 
 $data = array(
