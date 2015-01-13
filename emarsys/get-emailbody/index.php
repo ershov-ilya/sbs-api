@@ -30,7 +30,7 @@ require('../lib/post.php');
 //require('../lib/put.php');
 
 //$key='mfpa';
-$key=(isset($_GET['key']))?($_GET['key']):('mfpa');
+$key=(isset($_REQUEST['key']))?($_REQUEST['key']):('mfpa');
 
 $config=getConfig($key);
 // extract($config, EXTR_OVERWRITE);
@@ -44,7 +44,7 @@ $env = 'suite7';
 ------------------------------------------------------------------- */
 if(DEBUG) print_r($config);
 
-$camp_id=(isset($_GET['id']))?($_GET['id']):(72804);
+$camp_id=(isset($_REQUEST['id']))?($_REQUEST['id']):(72804);
 $uri='email/'.$camp_id.'/preview';
 
 if(DEBUG) print $uri."\n";

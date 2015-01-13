@@ -12,10 +12,8 @@ header('Content-Type: text/plain; charset=utf-8');
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
+$data = array();
+$data["content"]="kjsdhgklslg ahg alwerhg lkeawrhgl irgpobh aoihgl biwaegi";
+
 require('../lib/filter_content.php');
-
-
-$data = array(
-    "content" => "kjsdhgklslg ahg alwerhg lkeawrhgl irgpobh aoihgl biwaegi"
-);
 print filter_content('http://sbs.edu.ru/api/filter/content/', $data);
