@@ -21,9 +21,10 @@ function parseContent($content,$id=0)
         // Убираем html-комменты
         $el=preg_replace('/(<!\-\-)+.*(\-\->)+/Ui','',$el);
 
+        $el=preg_replace('/&quot;/Ui','"',$el);
 
         // Пропускаем повторяющиеся блоки
-        if(preg_match('/id="preview_text"/i', $el)) {$skip=2; continue;}
+        //if(preg_match('/id="preview_text"/i', $el)) {$skip=2; continue;}
         if(preg_match('/Наш адрес/i', $el)) continue;
         if(preg_match('/Не отвечайте на это письмо/i', $el)) continue;
         if(preg_match('/Школы Бизнеса/i', $el)) continue;
@@ -35,9 +36,10 @@ function parseContent($content,$id=0)
         if(preg_match('/\+\s*7\s*\({0,1}[0-9]{3}\){0,1}\s*[0-9\-\s]{7,9}/i', $el)) continue;
         /**/
 
+        // Проверяем наличие текста на русском языке в строке
         $check=preg_match('/[а-яёА-ЯЁ]+/i', $el);
-        //if(preg_match('/<a href/i', $el)) continue;
 
+        // Теги переноса строки и параграфы - превращаем в пробел
         $el=preg_replace('/<br>/Ui',' ',$el);
         $el=preg_replace('/<\/p>/Ui',' ',$el);
 
@@ -60,7 +62,8 @@ function parseContent($content,$id=0)
         }
         //if($i>2) break;
 
-        //if(strlen($output.$str)>500) continue;
+        // Ограничение по длине интротекста
+        if(strlen($output.$str)>500) continue;
         $output.=$str;
 
         // Вычищаем пробелы ещё раз

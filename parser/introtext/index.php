@@ -27,7 +27,7 @@ catch(PDOException $e) {
     echo $e->getMessage();
 }
 
-$sql='SELECT id FROM `temp`';
+$sql="SELECT id FROM `temp` WHERE introtext=''";
 $stmt = $db->query($sql);
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $res=$stmt->fetchAll();
@@ -47,8 +47,15 @@ foreach($res as $el)
     $content=$res_content['0']['content'];
     print "\n-------------------------------------------\n";
     print $id.") \n";
-    parseContent($content,$id);
+    $introtext = parseContent($content,$id);
 
+    $sqlupd="UPDATE temp SET introtext=? WHERE id=?";
+    $stmtupd=$db->prepare($sqlupd);
+    $stmtupd->bindValue(1,$introtext);
+    $stmtupd->bindValue(2,$id);
+    $result = $stmtupd->execute();
+
+    print "Update result: ".($result?'true':'false')."\n";
     $i++;
     //break;
 }
