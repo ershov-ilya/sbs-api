@@ -4,7 +4,7 @@
  * Author: ershov-ilya
  * Website: http://ershov.pw/
  * Date: 13.01.2015
- * Time: 10:52
+ * Time: 13:56
  */
 
 /* DEBUG
@@ -62,11 +62,8 @@ if(DEBUG)
 ------------------------------------------------------------------- */
 $resp=emarsys_post($username, $password, $env, $uri, $data_string);
 
-if(DEBUG) {
-    print "\n\nResponse:\n";
-    print_r($resp);
-}
-else
-{
-    print $resp->data;
-}
+require('../../parser/introtext/parsecontent.php');
+
+$content = parseContent($resp->data);
+
+print $content;
