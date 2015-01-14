@@ -7,3 +7,7 @@
  * Time: 15:17
  */
 
+define('MODX_API_MODE', true);
+require('../../../index.php');
+
+print "OK";
