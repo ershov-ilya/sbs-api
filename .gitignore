@@ -3,3 +3,4 @@
 cgi-bin/
 api.config.php
 pdo.config.php
+.htaccess
