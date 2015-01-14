@@ -27,10 +27,10 @@ $html->load($_POST['content']);
 if(empty($res)) {
     $res = $html->plaintext;
     $res=preg_replace('/&nbsp;/i','',$res);
-    $res=preg_replace('/<[a-z\/]+>/i','',$res);
+    $res=preg_replace('/<[b-z\/]+[\s]*(.*)>/i','',$res);
     $res=preg_replace('/[ ]+/i'," ",$res);
     $res=preg_replace('/[\n\r]+/i',"</p>
-    <p>",$res);
+<p>",$res);
     $res="<p>".$res."</p>";
 }
 

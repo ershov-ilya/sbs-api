@@ -16,20 +16,26 @@ $res='';
 
 if(empty($_POST['content'])) { print "Empty string"; return ''; }
 
-preg_match('/<h1>(.*)<\/h1>/i', $_POST['content'], $arr);
-if(!empty($arr[1])) $res=$arr[1];
-
-/*
 if(empty($res)) {
-    $res = $html->plaintext;
-    $res=preg_replace('/&nbsp;/i','',$res);
-    $res=preg_replace('/<[a-z\/]+>/i','',$res);
-    $res=preg_replace('/[ ]+/i'," ",$res);
-    $res=preg_replace('/[\n\r]+/i',"</p>
-    <p>",$res);
-    $res="<p>".$res."</p>";
+    preg_match('/<h1>(.*)<\/h1>/i', $_POST['content'], $arr);
+    if (!empty($arr[1])) $res = $arr[1];
 }
-/**/
+
+if(empty($res)) {
+    preg_match('/<title>(.*)<\/title>/i', $_POST['content'], $arr);
+    if (!empty($arr[1])) $res = $arr[1];
+}
+
+
+//if(empty($res)) {
+//    $res = $html->plaintext;
+//    $res=preg_replace('/&nbsp;/i','',$res);
+//    $res=preg_replace('/<[a-z\/]+>/i','',$res);
+//    $res=preg_replace('/[ ]+/i'," ",$res);
+//    $res=preg_replace('/[\n\r]+/i',"</p>
+//    <p>",$res);
+//    $res="<p>".$res."</p>";
+//}
 
 if(empty($res)) print "Not match";
 else print $res;
