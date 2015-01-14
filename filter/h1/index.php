@@ -4,9 +4,8 @@
  * Author: ershov-ilya
  * Website: http://ershov.pw/
  * Date: 14.01.2015
- * Time: 11:19
+ * Time: 11:41
  */
-
 
 header('Content-Type: text/plain; charset=utf-8');
 error_reporting(E_ALL);
@@ -17,7 +16,7 @@ $res='';
 
 if(empty($_POST['content'])) { print "Empty string"; return ''; }
 
-preg_match('/<title>(.*)<\/title>/i', $_POST['content'], $arr);
+preg_match('/<h1>(.*)<\/h1>/i', $_POST['content'], $arr);
 if(!empty($arr[1])) $res=$arr[1];
 
 /*
