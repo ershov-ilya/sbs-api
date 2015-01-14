@@ -11,14 +11,15 @@ header('Content-Type: text/plain; charset=utf-8');
 
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
+//define('ROOT_PATH', 'http://ershov.pw/api/sbs');
+define('ROOT_PATH', 'http://sbs.edu.ru/api');
 
 $data = array();
-//$data["content"]="kjsdhgklslg ahg alwerhg lkeawrhgl irgpobh aoihgl biwaegi";
 $data["key"]="sbs";
-$data["id"]="76416";
+$data["id"]="76811";
 
 require('../lib/curl.php');
-$data['content'] = CURL('http://sbs.edu.ru/api/emarsys/email/get-body/', $data);
+$data['content'] = CURL(ROOT_PATH.'/emarsys/email/get-body/', $data);
 
-$res=CURL('http://sbs.edu.ru/api/filter/content/', $data);
+$res=CURL(ROOT_PATH.'/filter/content/', $data);
 print $res;
