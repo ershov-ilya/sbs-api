@@ -9,8 +9,8 @@ header('Content-Type: text/plain; charset=utf-8');
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
-if(isset($_REQUEST['debug']) || isset($_REQUEST['test'])) define(DEBUG, true);
-else  define(DEBUG, false);
+if(isset($_REQUEST['debug']) || isset($_REQUEST['test'])) define('DEBUG', true);
+else  define('DEBUG', false);
 
 require('../../../config/api.config.php');
 require('../../lib/get.php');
@@ -18,7 +18,7 @@ require('../../lib/get.php');
 /* CONFIG
 ------------------------------------------------------------------- */
 //$key='mfpa';
-$key=(isset($_REQUEST['key']))?($_REQUEST['key']):('mfpa');
+$key=(isset($_REQUEST['key']))?($_REQUEST['key']):('sbs');
 
 $config=getConfig($key);
 // extract($config, EXTR_OVERWRITE);
@@ -43,6 +43,12 @@ if(DEBUG) print $uri."\n";
 ------------------------------------------------------------------- */
 $resp=emarsys_get($username, $password, $env, $uri);
 
+// Вывести IDшники в файл кэша
+$file_content = serialize($resp);
+file_put_contents('cache.dat', $file_content);
+exit(0);
+
+// Вывести IDшники на экран
 if(DEBUG) {
     print "\n\nResponse:\n";
     print_r($resp);

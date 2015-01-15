@@ -30,7 +30,7 @@ require('../../lib/post.php');
 //require('../lib/put.php');
 
 //$key='mfpa';
-$key=(isset($_REQUEST['key']))?($_REQUEST['key']):('mfpa');
+$key=(isset($_REQUEST['key']))?($_REQUEST['key']):('sbs');
 
 $config=getConfig($key);
 // extract($config, EXTR_OVERWRITE);
