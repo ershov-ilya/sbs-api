@@ -1,6 +1,8 @@
 .idea/
 .git/
 cgi-bin/
+config/
 api.config.php
 pdo.config.php
+core.config.php
 .htaccess
