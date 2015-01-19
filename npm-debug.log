@@ -1,0 +1,46 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'search',
+1 verbose cli   'cofeescript' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.33
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 info get C:\Users\iershov\AppData\Roaming\npm-cache\registry.npmjs.org\-\all/.cache.json
+6 warn Building the local index for the first time, please be patient
+7 verbose request where is /-/all
+8 verbose request registry https://registry.npmjs.org/
+9 verbose request id 7d97c2a55b875304
+10 verbose url raw /-/all
+11 verbose url resolving [ 'https://registry.npmjs.org/', './-/all' ]
+12 verbose url resolved https://registry.npmjs.org/-/all
+13 verbose request where is https://registry.npmjs.org/-/all
+14 info trying registry request attempt 1 at 12:37:49
+15 http GET https://registry.npmjs.org/-/all
+16 info retry will retry, error on last attempt: Error: connect ECONNREFUSED
+17 info trying registry request attempt 2 at 12:38:00
+18 http GET https://registry.npmjs.org/-/all
+19 info retry will retry, error on last attempt: Error: connect ECONNREFUSED
+20 info trying registry request attempt 3 at 12:39:01
+21 http GET https://registry.npmjs.org/-/all
+22 error Error: connect ECONNREFUSED
+22 error     at errnoException (net.js:904:11)
+22 error     at Object.afterConnect [as oncomplete] (net.js:895:19)
+22 error  { [Error: connect ECONNREFUSED]
+22 error   code: 'ECONNREFUSED',
+22 error   errno: 'ECONNREFUSED',
+22 error   syscall: 'connect' }
+23 error If you are behind a proxy, please make sure that the
+23 error 'proxy' config is set properly.  See: 'npm help config'
+24 error System Windows_NT 6.1.7601
+25 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "search" "cofeescript"
+26 error cwd C:\code\sbsAPI
+27 error node -v v0.10.33
+28 error npm -v 1.4.28
+29 error syscall connect
+30 error code ECONNREFUSED
+31 error errno ECONNREFUSED
+32 error stack Error: connect ECONNREFUSED
+32 error stack     at errnoException (net.js:904:11)
+32 error stack     at Object.afterConnect [as oncomplete] (net.js:895:19)
+33 verbose exit [ 1, true ]

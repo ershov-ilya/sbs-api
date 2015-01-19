@@ -34,7 +34,7 @@ try{
     $data = unserialize($file_content);
 
     // Сброс
-//    $data["index"]=0;
+    $data["index"]=0;
 
     // ЧТЕНИЕ текущего состояния info кэша
     $file_content = file_get_contents('../emarsys/email/get-ids/cache.dat');
@@ -102,7 +102,8 @@ try{
      * ------------------------------------------------------------
      */
 
-    print CURL(ROOT_PATH.'/modx/create/', $RESULT);
+    //print CURL(ROOT_PATH.'/modx/create/', $RESULT);
+
 } catch (Exception $e) {
     echo 'Поймано исключение: ', $e->getMessage(), "\n";
 }

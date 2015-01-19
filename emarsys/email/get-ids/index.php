@@ -45,7 +45,8 @@ $resp=emarsys_get($username, $password, $env, $uri);
 
 // Вывести IDшники в файл кэша
 $file_content = serialize($resp);
-file_put_contents('cache.dat', $file_content);
+file_put_contents($key.'-cache'.'.dat', $file_content);
+print "Done.";
 exit(0);
 
 // Вывести IDшники на экран
