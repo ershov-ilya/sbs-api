@@ -11,6 +11,7 @@ header('Content-Type: text/plain; charset=utf-8');
 
 if(isset($_GET['filter'])) define('FILTER', true);
 else  define('FILTER', false);
+require('../../config/core.config.php');
 
 try {
     // ЧТЕНИЕ текущего состояния
@@ -28,7 +29,7 @@ try {
         //strtotime
 
 // ЧТЕНИЕ текущего состояния info кэша
-    $file_content = file_get_contents('../../emarsys/email/get-ids/cache.dat');
+    $file_content = file_get_contents(API_ROOT_PATH.'/emarsys/email/get-ids/cache.dat');
     $obj_list = unserialize($file_content);
 
     $i = 0;
