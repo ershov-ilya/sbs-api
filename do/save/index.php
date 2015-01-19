@@ -114,17 +114,40 @@ try{
      * ------------------------------------------------------------
      */
 
-    define('SAVE', false);
+    define('SAVE', true);
     if(SAVE) {
+        // Отправка документа в MODX
         print CURL(API_ROOT_URL.'/modx/create/', $RESULT);
-        $check_inbox=array();
+
+        if(is_file(API_ROOT_PATH.'/do/check/input.txt')) {
+            $check_inbox=unserialize(file_get_contents(API_ROOT_PATH.'/do/check/input.txt'));
+        }
+        else $check_inbox=array();
+        if(isset($check_inbox['last_date'])){
+            print '$check_inbox[\'last_date\']: ';
+            print $check_inbox['last_date'];
+            print "\n";
+
+            print '$info->created: ';
+            print $info->created;
+            print "\n";
+
+
+
+            $check_inbox['last_date']=(strtotime($info->created) > strtotime($check_inbox['last_date'])) ? $info->created : $check_inbox['last_date'];
+
+            print '$check_inbox[\'last_date\']: ';
+            print $check_inbox['last_date'];
+            print "\n";
+
+        }else
         $check_inbox['last_date']=$info->created;
         $check_inbox_content = serialize($check_inbox);
         file_put_contents(API_ROOT_PATH.'/do/check/input.txt', $check_inbox_content);
     }
 
 } catch (Exception $e) {
-    echo 'Поймано исключение: ', $e->getMessage(), "\n";
+    echo 'Поймано исключение: '. $e->getMessage()."\n";
 }
 
 // ЗАПИСЬ текущего состояния
