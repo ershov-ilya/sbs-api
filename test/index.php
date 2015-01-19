@@ -74,7 +74,7 @@ try{
 
     // Фильтрация контента
     $RESULT['pagetitle'] = $info->subject;
-    $RESULT['content']   = CURL(ROOT_PATH.'/filter/content/', $RESULT);
+    $RESULT['content']   = CURL(ROOT_PATH.'/filter/body/', $RESULT);
     $RESULT['introtext'] = CURL(ROOT_PATH.'/filter/introtext/', $RESULT);
     $RESULT['alias'] =  $data["id"];
     //$RESULT['alias'] =  $info->name;
@@ -94,7 +94,7 @@ try{
     $RESULT['publishedon'] = $info->created;
 
 
-    //print_r($RESULT);
+    print_r($RESULT['content']);
 
     //exit(0);
     /*
