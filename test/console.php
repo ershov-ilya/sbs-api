@@ -8,4 +8,5 @@
  */
 
 print "Echo string\n";
+if(!empty($argv)) print_r($argv);
 return "Return string";
