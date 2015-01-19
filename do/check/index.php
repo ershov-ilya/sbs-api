@@ -67,6 +67,7 @@ try {
 //$data_content = serialize($data);
 //file_put_contents($file, $data_content);
 
+$result['index']=0;
 $result_array_serialized=serialize($result);
 file_put_contents('output.txt', $result_array_serialized);
 

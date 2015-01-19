@@ -8,3 +8,4 @@
  */
 
 define('API_ROOT_PATH', '/home/xxxxxxx/xxxxxxx/www/api');
+define('API_ROOT_URL', 'http://xxxxxxx/api');
