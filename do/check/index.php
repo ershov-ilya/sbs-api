@@ -34,20 +34,12 @@ try {
     }
     $last_date=strtotime($data['last_date']);
 
-//    if(is_file('data.txt')) {
-//        $file_content = file_get_contents('data.txt');
-//        $hdd_memory = unserialize($file_content);
-//    }
-//    else
-//    {
-//        $data=array();
-//        $data['last_date'] = '2015-01-15 15:57:12';
-//    }
-
-
 // ЧТЕНИЕ текущего состояния info кэша
     $file_content = file_get_contents(API_ROOT_PATH."/emarsys/email/get-ids/$key-cache.dat");
     $obj_list = unserialize($file_content);
+
+//    print_r($obj_list);
+//    exit(0);
 
     $sorted = array();
     foreach($obj_list->data as $value){
@@ -84,6 +76,7 @@ try {
 
         // Проверка на уникальность писем
         preg_match('/^([0-9]{4,6})-/', $el->name, $matches);
+        if($el->status==1)  continue;
         if(!isset($matches[1])) continue;
         if(isset($uniqueID[$matches[1]])) continue;
         $uniqueID[$matches[1]] = true;
@@ -108,13 +101,6 @@ catch (Exception $e)
 }
 
 print '<p>Можно переходить к <a href="http://sbs.edu.ru/api/do/save/">публикации писем</a></p>'."\n";
-
-
-//// ЗАПИСЬ текущего состояния
-//$hdd_memory = array();
-//$hdd_memory['uniqueID']=$uniqueID;
-//$data_content = serialize($hdd_memory);
-//file_put_contents('data.txt', $data_content);
 
 $result['index']=0;
 $result_array_serialized=serialize($result);
