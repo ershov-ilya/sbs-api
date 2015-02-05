@@ -11,6 +11,11 @@ header('Content-Type: text/plain; charset=utf-8');
 require('../../config/core.config.php');
 
 function get_element_with_id($id, &$arr){
+    if(DEBUG){
+        print "get_element_with_id func\n";
+        print "ID: $id\n";
+        print_r($arr);
+    }
     foreach($arr as $el)
     {
         if($el->id==$id) return $el;
@@ -23,6 +28,7 @@ require(API_ROOT_PATH.'/lib/curl.php');
 defined('DEBUG') or define('DEBUG', true);
 
 $data = array();
+$key='sbs';
 
 /*
  * Получение ВХОДНЫХ данных
@@ -38,7 +44,7 @@ try{
 
 
     // ЧТЕНИЕ текущего состояния info кэша
-    $file_content = file_get_contents(API_ROOT_PATH.'/emarsys/email/get-ids/cache.dat');
+    $file_content = file_get_contents(API_ROOT_PATH."/emarsys/email/get-ids/$key-cache.dat");
     $obj_list = unserialize($file_content);
 
     $check_config_file=API_ROOT_PATH.'/do/check/output.txt';
@@ -71,16 +77,21 @@ try{
     $data["id"]=$list[$check_config["index"]];
     $data["key"]='sbs';
 
-    print '$data:'."\n";
-    print_r($data);
     /*
      * Выполнение ЗАДАЧИ
      * -----------------------------------------------------------
      */
 
+    print '$data:'."\n";
+    print_r($data);
+
+//    print_r($obj_list->data);
+//    exit(0);
+
     $info = get_element_with_id($data["id"], $obj_list->data);
     print '$info:'."\n";
     print_r($info);
+    exit(0);
 
     $RESULT = array();
     // Запрос в Emarsys
