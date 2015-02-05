@@ -12,9 +12,13 @@ header('Content-Type: text/plain; charset=utf-8');
 if(isset($_GET['filter'])) define('FILTER', true);
 else  define('FILTER', false);
 defined('DEBUG') or define('DEBUG', true);
+
 $key='sbs';
 
 require('../../config/core.config.php');
+//require('../../config/pdo.config.php');
+//extract($pdoconfig);
+//$db = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
 
 try {
     // ЧТЕНИЕ текущего состояния
@@ -64,31 +68,34 @@ try {
     $i = 0;
     $result=array();
     $result['array']=array();
-    if(FILTER){
-        foreach ($sorted as $el) {
-            if(strtotime($el->created)>$last_date){
-                print $i . ": ";
-                print $el->id . "\t: " . $el->created;
-                $result['array'][]=$el->id;
-                print "\n";
-            }
-            $i++;
-        }
-    }else{
-        foreach ($sorted as $el) {
-            print $i . ": ";
-            print $el->id . "\t: " . $el->created;
-            if(strtotime($el->created)>$last_date){
-                print " <<<";
-                $result['array'][]=$el->id;
-            }
-            print "\n";
 
-            $i++;
+    $uniqueID=array();
+    foreach ($sorted as $el) {
+
+        // Проверка на уникальность писем
+        preg_match('/^([0-9]{4,6})-/', $el->name, $matches);
+        if(!isset($matches[1])) continue;
+        if(isset($uniqueID[$matches[1]])) continue;
+        $uniqueID[$matches[1]] = true;
+
+
+        if(!FILTER){
+            print $i . ": ";
+            print $el->id . "\t: " . $el->created . ' '. $el->name;
         }
+        if(strtotime($el->created)>$last_date){
+            print " <<<";
+            $result['array'][]=$el->id;
+        }
+        print "\n";
+
+        $i++;
     }
+
 //print_r($obj_list);
-} catch (Exception $e) {
+}
+catch (Exception $e)
+{
     echo 'Поймано исключение: ', $e->getMessage(), "\n";
 }
 
