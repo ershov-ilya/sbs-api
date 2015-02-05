@@ -7,7 +7,7 @@
  * Date: 19.01.2015
  * Time: 15:48
  */
-header('Content-Type: text/plain; charset=utf-8');
+header('Content-Type: text/html; charset=utf-8');
 
 if(isset($_GET['filter'])) define('FILTER', true);
 else  define('FILTER', false);
@@ -33,7 +33,17 @@ try {
         $data['last_date'] = '2015-01-15 15:57:12';
     }
     $last_date=strtotime($data['last_date']);
-        //strtotime
+
+//    if(is_file('data.txt')) {
+//        $file_content = file_get_contents('data.txt');
+//        $hdd_memory = unserialize($file_content);
+//    }
+//    else
+//    {
+//        $data=array();
+//        $data['last_date'] = '2015-01-15 15:57:12';
+//    }
+
 
 // ЧТЕНИЕ текущего состояния info кэша
     $file_content = file_get_contents(API_ROOT_PATH."/emarsys/email/get-ids/$key-cache.dat");
@@ -79,15 +89,13 @@ try {
         $uniqueID[$matches[1]] = true;
 
 
-        if(!FILTER){
-            print $i . ": ";
-            print $el->id . "\t: " . $el->created . ' '. $el->name;
-        }
+        print $i . ": ";
+        print $el->id . "\t: " . $el->created . " = ". $el->name;
         if(strtotime($el->created)>$last_date){
-            print " <<<";
+            print " <<< Новое неопубликованное письмо";
             $result['array'][]=$el->id;
         }
-        print "\n";
+        print "<br>\n";
 
         $i++;
     }
@@ -99,9 +107,14 @@ catch (Exception $e)
     echo 'Поймано исключение: ', $e->getMessage(), "\n";
 }
 
+print '<p>Можно переходить к <a href="http://sbs.edu.ru/api/do/save/">публикации писем</a></p>'."\n";
+
+
 //// ЗАПИСЬ текущего состояния
-//$data_content = serialize($data);
-//file_put_contents($file, $data_content);
+//$hdd_memory = array();
+//$hdd_memory['uniqueID']=$uniqueID;
+//$data_content = serialize($hdd_memory);
+//file_put_contents('data.txt', $data_content);
 
 $result['index']=0;
 $result_array_serialized=serialize($result);

@@ -5,7 +5,7 @@
  * Date: 08.12.2014
  * Time: 14:45
  */
-header('Content-Type: text/plain; charset=utf-8');
+header('Content-Type: text/html; charset=utf-8');
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
@@ -46,7 +46,9 @@ $resp=emarsys_get($username, $password, $env, $uri);
 // Вывести IDшники в файл кэша
 $file_content = serialize($resp);
 file_put_contents($key.'-cache'.'.dat', $file_content);
-print "Done.";
+print "<h1>Выгрузка успешно завершёна.</h1>";
+print '<p>Можно переходить к <a href="http://sbs.edu.ru/api/do/check/">этапу поиска новых неопубликованных писем</a></p>';
+
 exit(0);
 
 // Вывести IDшники на экран

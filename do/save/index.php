@@ -157,6 +157,8 @@ try{
     echo 'Поймано исключение: '. $e->getMessage()."\n";
 }
 
+print 'Для публикации следующего письма нажимайте F5 '."\n";
+
 // ЗАПИСЬ текущего состояния
 $check_config["index"]++;
 $check_config_file_content = serialize($check_config);
