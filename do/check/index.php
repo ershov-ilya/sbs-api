@@ -11,6 +11,8 @@ header('Content-Type: text/plain; charset=utf-8');
 
 if(isset($_GET['filter'])) define('FILTER', true);
 else  define('FILTER', false);
+defined('DEBUG') or define('DEBUG', true);
+
 require('../../config/core.config.php');
 
 try {
@@ -31,6 +33,38 @@ try {
 // ЧТЕНИЕ текущего состояния info кэша
     $file_content = file_get_contents(API_ROOT_PATH.'/emarsys/email/get-ids/cache.dat');
     $obj_list = unserialize($file_content);
+
+    $sorted = array();
+    foreach($obj_list->data as $value){
+        $sorted[]=$value;
+    }
+
+    usort($sorted, function($objA, $objB)
+    {
+        $a=strtotime($objA->created);
+        $b=strtotime($objB->created);
+        if ($a == $b)
+        {
+            echo "a ($a) is same priority as b ($b), keeping the same\n";
+            return 0;
+        }
+        else if ($a > $b)
+        {
+            echo "a ($a) is higher priority than b ($b), moving b down array\n";
+            return 1;
+        }
+        else {
+            echo "b ($b) is higher priority than a ($a), moving b up array\n";
+            return -1;
+        }
+    });
+
+    print_r($sorted);
+
+//    $test = array();
+//    $test[]=$obj_list[0];
+//    print_r($test);
+    exit(0);
 
     $i = 0;
     $result=array();
