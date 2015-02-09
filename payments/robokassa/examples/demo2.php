@@ -1,4 +1,8 @@
-﻿<?
+﻿<?php
+header('Content-Type: text/plain; charset=utf-8');
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+defined('DEBUG') or define('DEBUG', true);
 
 // 2.
 // Оплата заданной суммы с выбором валюты на сайте ROBOKASSA

@@ -1,4 +1,8 @@
-﻿<?
+﻿<?php
+header('Content-Type: text/html; charset=utf-8');
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+defined('DEBUG') or define('DEBUG', true);
 
 // 1.
 // Оплата заданной суммы с выбором валюты на сайте мерчанта
@@ -6,8 +10,8 @@
 
 // регистрационная информация (логин, пароль #1)
 // registration info (login, password #1)
-$mrh_login = "demo";
-$mrh_pass1 = "password_1";
+$mrh_login = "SBSEDU";
+$mrh_pass1 = "hvlygtQupVM6";
 
 // номер заказа
 // number of order

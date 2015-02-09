@@ -28,6 +28,17 @@ function CURL($url, $data){
     return  $output;
 }
 
+$mrh_login = "SBSEDU";
+$mrh_pass1 = "hvlygtQupVM6";
+$inv_id = 0;
+$inv_desc = "Test";
+$out_summ = "12.23";
+$shp_item = 1;
+$in_curr = "";
+$culture = "ru";
+$encoding = "utf-8";
+$crc  = md5("$mrh_login:$out_summ:$inv_id:$mrh_pass1:Shp_item=$shp_item");
+
 $data=array(
     'MrchLogin' => 'SBSEDU',
     'nOutSum'   => '1000',
