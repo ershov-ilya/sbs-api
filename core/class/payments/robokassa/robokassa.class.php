@@ -12,12 +12,12 @@ class Robokassa{
     public $crc_sum;
     public $data;
     public $link_pay;
+    private $config;
 
-    public function __construct($data)
+    public function __construct($data, $payments_config=array())
     {
-        require_once('../../../config/core.config.php');
-        require_once(API_ROOT_PATH.'/core/config/payments.config.php');
-
+        $this->config=$payments_config['robokassa'];
+        print_r($this->config);
 
     }
 }
