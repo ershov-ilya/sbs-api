@@ -8,48 +8,53 @@
  */
 
 class Robokassa{
-    public $crc_data;
-    public $crc_sum;
+    public $crc_sum1;
+    public $crc_sum2;
     public $data;
-    public $link_pay;
-    private $config;
 
-    public function __construct($data, $payments_config=array())
+    private $config;
+    private $payURL;
+    private $baseURL;
+
+
+    public function __construct($data, $config=array())
     {
+        if(empty($config)) die('Lost Robokassa config!');
         $this->data = $data;
-        $this->config=$payments_config['robokassa'];
+        $this->config=$config;
+        $this->baseURL = 'http://test.robokassa.ru/Index.aspx?';
+        $this->genCRC1();
+
         print_r($this->data);
         print_r($this->config);
+    }
 
-        $this->crc_data = array(
+    private function genCRC1(){
+        $pass1=$this->config['mrh_pass1'];
+        $crc_data = array(
             'MrchLogin' => $this->data['MrchLogin'],
             'OutSum'    => $this->data['OutSum'],
             'InvId'     => $this->data['InvId']
         );
-    }
-
-    function getCRC(){
-        //$data = $this->crc_data;
-        $pass1=$this->config['mrh_pass1'];
-
-        //$str=$data['MrchLogin'].':'.$data['OutSum'].':'.$data['InvId'].':'.$pass1;
-        $str=implode(':',$this->crc_data);
+        $str=implode(':',$crc_data);
         $str= $str.':'.$pass1;
-
-        $this->crc_sum = md5($str);
-        return $this->crc_sum;
+        $this->crc_sum1 = md5($str);
     }
-    function combineGetString(){
-        $data = $this->data;
-        $crc = $this->crc_sum;
-        $url='http://test.robokassa.ru/Index.aspx?';
-        $result = '';
-        foreach($data as $key => $val)
-        {
-            $result .= $key.'='.$val.'&';
+
+    function payURL(){
+        if(empty($this->payURL)) {
+            $data = $this->data;
+            $crc = $this->crc_sum1;
+            $url = $this->baseURL;
+            $result = '';
+
+            foreach ($data as $key => $val) {
+                $result .= $key . '=' . $val . '&';
+            }
+            $result .= 'SignatureValue=' . $crc;
+            $this->payURL = $url.$result;
         }
-        $result .= 'SignatureValue='.$crc;
-        return $url.$result;
+        return $this->payURL;
     }
 
 }
