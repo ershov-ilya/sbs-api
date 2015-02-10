@@ -1,8 +1,8 @@
 .idea/
 .git/
 cgi-bin/
-config/payments.config.php
-config/api.config.php
-config/pdo.config.php
-config/core.config.php
 .htaccess
+core/config/payments.config.php
+core/config/api.config.php
+core/config/pdo.config.php
+core/config/core.config.php
