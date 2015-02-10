@@ -12,7 +12,7 @@ ini_set("display_errors", 1);
 if(isset($_REQUEST['debug']) || isset($_REQUEST['test'])) define('DEBUG', true);
 else  define('DEBUG', false);
 
-require('../../../config/api.config.php');
+require('../../../core/config/api.config.php');
 require('../../lib/get.php');
 
 /* CONFIG

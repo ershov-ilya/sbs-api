@@ -15,10 +15,7 @@ defined('DEBUG') or define('DEBUG', true);
 
 $key='sbs';
 
-require('../../config/core.config.php');
-//require('../../config/pdo.config.php');
-//extract($pdoconfig);
-//$db = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
+require('../../core/config/core.config.php');
 
 try {
     // ЧТЕНИЕ текущего состояния
@@ -30,7 +27,8 @@ try {
     else
     {
         $data=array();
-        $data['last_date'] = '2015-01-15 15:57:12';
+        print "Default date from...<br>\n";
+        $data['last_date'] = '2015-02-10 11:00:00';
     }
     $last_date=strtotime($data['last_date']);
 

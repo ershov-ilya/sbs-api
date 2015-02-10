@@ -8,7 +8,7 @@
  */
 
 header('Content-Type: text/plain; charset=utf-8');
-require('../../config/core.config.php');
+require('../../core/config/core.config.php');
 
 function get_element_with_id($id, &$arr){
     foreach($arr as $el)
