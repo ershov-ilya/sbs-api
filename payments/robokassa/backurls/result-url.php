@@ -14,13 +14,13 @@ defined('DEBUG') or define('DEBUG', true);
 
 $log_array=array();
 $log_array['data']=$_POST;
-$log_array['status']='false';
+$log_array['status']='Failed';
 
 require_once('../../../core/config/core.config.php');
 require_once(API_ROOT_PATH.'/core/class/payments/robokassa/robokassa.class.php');
 require_once(API_ROOT_PATH.'/core/config/payments.config.php');
 $crc2=$_POST['SignatureValue'];
-if($crc2==Robokassa::checkCRC2($_POST,$payments_config['robokassa'])) $log_array['status']='true';
+if($crc2==Robokassa::checkCRC2($_POST,$payments_config['robokassa'])) $log_array['status']='Successful';
 
 $json = json_encode($log_array);
 $curtime=time()-3600;
