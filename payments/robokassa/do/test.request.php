@@ -11,6 +11,7 @@ header('Content-Type: text/html; charset=utf-8');
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 defined('DEBUG') or define('DEBUG', true);
+require_once('../../../config/core.config.php');
 ?><!doctype html>
 <html>
 <head>
@@ -36,8 +37,13 @@ function combineGetString($data, $crc=''){
     return $url.$result;
 }
 
+
 $mrh_pass1 = "hvlygtQupVM6";
 $mrh_pass2 = "Fuaf3Hxrtfiu";
+print '$mrh_pass1='.$mrh_pass1."\n";
+print '$mrh_pass2='.$mrh_pass2."\n";
+
+
 
 //$mrh_login = "SBSEDU";
 //$inv_id = 0;
