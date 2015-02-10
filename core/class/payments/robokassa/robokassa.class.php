@@ -47,11 +47,25 @@ class Robokassa{
                 'OutSum' => $this->data['OutSum'],
                 'InvId' => $this->data['InvId']
             );
+            if(empty($crc_data['InvId'])) return '';
             $str = implode(':', $crc_data);
             $str = $str . ':' . $pass2;
             $this->crc_sum2 = md5($str);
         }
         return $this->crc_sum2;
+    }
+
+    public static function checkCRC2($data, $config){
+        $pass2 = $config['mrh_pass2'];
+        $crc_data = array(
+            'OutSum' => $data['OutSum'],
+            'InvId' => $data['InvId']
+        );
+        $str = implode(':', $crc_data);
+        $str = $str . ':' . $pass2;
+        $crc_sum2 = md5($str);
+        if($data['SignatureValue']==$crc_sum2) return true;
+        return false;
     }
 
     function payURL(){
