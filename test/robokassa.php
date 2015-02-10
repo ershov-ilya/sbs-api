@@ -15,4 +15,16 @@ require_once('../core/config/core.config.php');
 
 require_once(API_ROOT_PATH.'/core/class/payments/robokassa/robokassa.class.php');
 require_once(API_ROOT_PATH.'/core/config/payments.config.php');
-$robokassa = new Robokassa(array(), $payments_config);
+
+$data=array(
+    'MrchLogin'     => "SBSEDU",
+    'OutSum'        => "12.23",
+    'InvId'         => 0,
+    'Desc'          => "Test",
+    'IncCurrLabel'  => "",
+    'Culture'       => "ru",
+    'Encoding'      => "utf-8"
+);
+$robokassa = new Robokassa($data, $payments_config);
+print "CRC:".$robokassa->getCRC()."\n";
+print "string: ".$robokassa->combineGetString()."\n";
