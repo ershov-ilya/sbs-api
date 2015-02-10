@@ -4,10 +4,12 @@
  * Author: ershov-ilya
  * Website: http://ershov.pw/
  * Date: 10.02.2015
- * Time: 11:25
+ * Time: 9:54
  */
 
-$robokassa = array(
-    'mrh_pass1' => "************",
-    'mrh_pass2' => "************"
+$payments_config = array(
+    'robokassa' => array(
+        'mrh_pass1' => "xxxxxxxxxxxx",
+        'mrh_pass2' => "xxxxxxxxxxxx"
+    )
 );
