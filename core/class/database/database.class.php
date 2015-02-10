@@ -43,9 +43,9 @@ class Database
         try
         {
             // Save stream
-            $this->dbh = new PDO("$dbtype:host=$dbhost;dbname=$dbname" , $dbuser, $dbpass
-                , array (PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'")
-                ) ;
+            $this->dbh = new PDO("$dbtype:host=$dbhost;dbname=$dbname" , $dbuser, $dbpass,
+                array (PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'")
+            );
         }
         catch (PDOException $e ) {
             if(DEBUG) print 'Exception: ' . $e-> getMessage();
@@ -84,5 +84,24 @@ class Database
         $count = count($rows);
         $this->errors();
         return $count;
+    }
+
+    public function putOne($table, $data){
+        $fields=array();
+        $placeholders=array();
+        foreach($data as $key => $val){
+            $fields[]=$key;
+            $placeholders[]=':'.$key;
+        }
+
+        $sql = "INSERT INTO ".$table." (".implode(',',$fields).") VALUES (".implode(',',$placeholders).");";
+        $stmt = $this->dbh->prepare($sql);
+        foreach($data as $key => $val){
+            $stmt->bindParam(':'.$key, $val);
+        }
+        $success = $stmt->execute();
+        if(empty($success)) return false;
+        $lastID = $this->dbh->lastInsertId();
+        return $lastID;
     }
 } // class Database

@@ -23,3 +23,9 @@ $sql = 'SELECT * FROM log;';
 $res = $db->getOne($sql);
 print_r($res);
 
+$data=array();
+$data['message']='foreach';
+//$data['order']='test/database.php';
+//$data['desc']='test/database.php';
+$lastID = $db->putOne('log', $data);
+var_dump($lastID);

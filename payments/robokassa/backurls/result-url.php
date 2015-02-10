@@ -25,7 +25,7 @@ if($crc2==Robokassa::checkCRC2($_POST,$payments_config['robokassa'])) $log_array
 $json = json_encode($log_array);
 $curtime=time()-3600;
 $data = date("Y-m-d H:i:s", $curtime);
-$content = $data.' incoming POST:'.$json."\n\n";
+$content = $data.' incoming POST:'.$json." REMOTE_ADDR:".$_SERVER['REMOTE_ADDR']."\n\n";
 
 file_put_contents('log.txt', $content, FILE_APPEND);
 //$answer = array(
