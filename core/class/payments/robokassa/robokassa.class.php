@@ -8,14 +8,14 @@
  */
 
 class Robokassa{
-    public $crc_sum1;
-    public $crc_sum2;
-    public $data;
-
-    private $config;
-    private $payURL;
     private $baseURL;
+    private $data;
+    private $config;
 
+    private $crc_sum1;
+    private $payURL;
+
+    private $crc_sum2;
 
     public function __construct($data, $config=array())
     {
@@ -23,26 +23,43 @@ class Robokassa{
         $this->data = $data;
         $this->config=$config;
         $this->baseURL = 'http://test.robokassa.ru/Index.aspx?';
-        $this->genCRC1();
 
         print_r($this->data);
         print_r($this->config);
     }
 
     private function genCRC1(){
-        $pass1=$this->config['mrh_pass1'];
-        $crc_data = array(
-            'MrchLogin' => $this->data['MrchLogin'],
-            'OutSum'    => $this->data['OutSum'],
-            'InvId'     => $this->data['InvId']
-        );
-        $str=implode(':',$crc_data);
-        $str= $str.':'.$pass1;
-        $this->crc_sum1 = md5($str);
+        if(empty($this->crc_sum1)) {
+            $pass1=$this->config['mrh_pass1'];
+            $crc_data = array(
+                'MrchLogin' => $this->data['MrchLogin'],
+                'OutSum'    => $this->data['OutSum'],
+                'InvId'     => $this->data['InvId']
+            );
+            $str=implode(':',$crc_data);
+            $str= $str.':'.$pass1;
+            $this->crc_sum1 = md5($str);
+        }
+        return $this->crc_sum1;
+    }
+
+    public function genCRC2(){
+        if(empty($this->crc_sum2)) {
+            $pass2 = $this->config['mrh_pass2'];
+            $crc_data = array(
+                'OutSum' => $this->data['OutSum'],
+                'InvId' => $this->data['InvId']
+            );
+            $str = implode(':', $crc_data);
+            $str = $str . ':' . $pass2;
+            $this->crc_sum2 = md5($str);
+        }
+        return $this->crc_sum2;
     }
 
     function payURL(){
         if(empty($this->payURL)) {
+            $this->genCRC1();
             $data = $this->data;
             $crc = $this->crc_sum1;
             $url = $this->baseURL;

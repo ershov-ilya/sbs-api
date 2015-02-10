@@ -17,8 +17,8 @@ require_once(API_ROOT_PATH.'/core/class/payments/robokassa/robokassa.class.php')
 require_once(API_ROOT_PATH.'/core/config/payments.config.php');
 
 $data=array(
-    'OutSum'        => "12.23",
     'MrchLogin'     => "SBSEDU",
+    'OutSum'        => "13.37",
     'InvId'         => 0,
     'Desc'          => "Test",
     'IncCurrLabel'  => "",
@@ -26,4 +26,6 @@ $data=array(
     'Encoding'      => "utf-8"
 );
 $robokassa = new Robokassa($data, $payments_config['robokassa']);
-print "string: ".$robokassa->payURL()."\n";
+print "payURL: ".$robokassa->payURL()."\n";
+print "check CRC2: ".$robokassa->genCRC2()."\n";
+
