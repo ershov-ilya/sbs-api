@@ -29,7 +29,7 @@ class Robokassa{
         if(empty($this->crc_sum1)) {
             $pass1=$this->config['mrh_pass1'];
             $crc_data = array(
-                'MrchLogin' => $this->data['MrchLogin'],
+                'MrchLogin' => $this->config['MrchLogin'],
                 'OutSum'    => $this->data['OutSum'],
                 'InvId'     => $this->data['InvId']
             );
@@ -57,7 +57,7 @@ class Robokassa{
     function payURL(){
         if(empty($this->payURL)) {
             $this->genCRC1();
-            $data = $this->data;
+            $data = array('MrchLogin' => $this->config['MrchLogin']) + $this->data;
             $crc = $this->crc_sum1;
             $url = $this->baseURL;
             $result = '';

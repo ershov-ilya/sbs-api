@@ -17,7 +17,6 @@ require_once(API_ROOT_PATH.'/core/class/payments/robokassa/robokassa.class.php')
 require_once(API_ROOT_PATH.'/core/config/payments.config.php');
 
 $data=array(
-    'MrchLogin'     => "SBSEDU",
     'OutSum'        => "13.37",
     'InvId'         => 0,
     'Desc'          => "Test",
