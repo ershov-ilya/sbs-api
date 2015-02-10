@@ -29,3 +29,5 @@ $robokassa = new Robokassa($data, $payments_config['robokassa']);
 print "payURL: ".$robokassa->payURL()."\n";
 print "check CRC2: ".$robokassa->genCRC2()."\n";
 
+print_r($robokassa->resultArray());
+

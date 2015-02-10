@@ -23,9 +23,6 @@ class Robokassa{
         $this->data = $data;
         $this->config=$config;
         $this->baseURL = 'http://test.robokassa.ru/Index.aspx?';
-
-        print_r($this->data);
-        print_r($this->config);
     }
 
     private function genCRC1(){
@@ -72,6 +69,13 @@ class Robokassa{
             $this->payURL = $url.$result;
         }
         return $this->payURL;
+    }
+
+    public function resultArray(){
+        $newdata = array(
+            'crc2' => $this->genCRC2()
+        );
+        return $this->data + $newdata;
     }
 
 }
