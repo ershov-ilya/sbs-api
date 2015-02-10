@@ -17,8 +17,8 @@ require_once(API_ROOT_PATH.'/core/class/payments/robokassa/robokassa.class.php')
 require_once(API_ROOT_PATH.'/core/config/payments.config.php');
 
 $data=array(
-    'OutSum'        => "13.37",
-    'InvId'         => 0,
+    'OutSum'        => "16.00",
+    'InvId'         => 12,
     'Desc'          => "Test",
     'IncCurrLabel'  => "",
     'Culture'       => "ru",

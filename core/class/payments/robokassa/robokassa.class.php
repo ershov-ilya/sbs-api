@@ -63,7 +63,7 @@ class Robokassa{
         );
         $str = implode(':', $crc_data);
         $str = $str . ':' . $pass2;
-        $crc_sum2 = md5($str);
+        $crc_sum2 = strtoupper(md5($str));
         if($data['SignatureValue']==$crc_sum2) return true;
         return false;
     }

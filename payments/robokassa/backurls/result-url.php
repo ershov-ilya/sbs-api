@@ -32,4 +32,4 @@ file_put_contents('log.txt', $content, FILE_APPEND);
 //    'status'    => 'OK'
 //);
 //print (json_encode($answer));
-print "OK";
+print $log_array['status'];
