@@ -14,7 +14,7 @@ defined('DEBUG') or define('DEBUG', true);
 
 $log_array=array();
 $log_array['data']=$_POST;
-$log_array['status']='Failed';
+$log_array['status']='Fail';
 
 require_once('../../../core/config/core.config.php');
 require_once(API_ROOT_PATH.'/core/class/payments/robokassa/robokassa.class.php');
@@ -28,8 +28,21 @@ $data = date("Y-m-d H:i:s", $curtime);
 $content = $data.' incoming POST:'.$json." REMOTE_ADDR:".$_SERVER['REMOTE_ADDR']."\n\n";
 
 file_put_contents('log.txt', $content, FILE_APPEND);
-//$answer = array(
-//    'status'    => 'OK'
-//);
-//print (json_encode($answer));
+
+require_once(API_ROOT_PATH.'/core/class/database/database.class.php');
+require_once(API_ROOT_PATH.'/core/config/pdo.config.php');
+$db = new Database($pdoconfig_lander);
+
+print_r($log_array);
+
+$status = 'Неизвестный статус';
+if($log_array['status']=='Fail') $status = 'Ошибка';
+if($log_array['status']=='Successful') $status = 'Оплачено';
+
+$db_data = array(
+    'Status'    => $status
+);
+$db->updateOne('payments', $log_array['data']['InvId'], $db_data);
+
+
 print $log_array['status'];

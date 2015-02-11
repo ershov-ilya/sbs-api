@@ -18,13 +18,21 @@ require_once(API_ROOT_PATH.'/core/config/payments.config.php');
 
 // Get order data
 $order = array();
-$order['OutSum']    = 0;
-$order['Desc']      = "Robokassa testing";
+$order['OutSum']    = 1122;
+if(isset($_REQUEST['sum'])){
+    $_REQUEST['sum'] = preg_replace('/^[0-9\.]/', '', $_REQUEST['sum']);
+    $order['OutSum'] = $_REQUEST['sum'];
+}
+$order['Desc']      = "2233";
+if(isset($_REQUEST['desc'])){
+    $_REQUEST['desc'] = filter_var($_REQUEST['desc'], FILTER_SANITIZE_STRING);
+    $order['OutSum'] = $_REQUEST['desc'];
+}
 
 
 // Database save row, and get this row ID
-require_once('../core/class/database/database.class.php');
-require_once('../core/config/pdo.config.php');
+require_once(API_ROOT_PATH.'/core/class/database/database.class.php');
+require_once(API_ROOT_PATH.'/core/config/pdo.config.php');
 $db = new Database($pdoconfig_lander);
 $InvId = $db->putOne('payments', $order);
 
