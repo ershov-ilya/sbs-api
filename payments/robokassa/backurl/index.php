@@ -37,9 +37,11 @@ $order = $db->getOne('payments', $id);
 
 // Проверка
 if($order['SignatureValue'] == $_POST['SignatureValue']) $log_array['status']='Successful';
-$log_array['attempt'] = $order['attempts']+1;
 
 // Запись в файл
+$log_array['attempt'] = $order['attempts']+1;
+$log_array['Requested ID'] = $id;
+
 $json = json_encode($log_array);
 $curtime=time()-3600;
 $data = date("Y-m-d H:i:s", $curtime);

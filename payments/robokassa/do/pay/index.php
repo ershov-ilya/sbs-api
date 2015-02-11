@@ -25,6 +25,11 @@ $order['Desc'] = "";
 if(isset($_REQUEST['desc'])) $order['Desc'] = filter_var($_REQUEST['desc'], FILTER_SANITIZE_STRING);
 if(isset($_REQUEST['Desc'])) $order['Desc'] = filter_var($_REQUEST['Desc'], FILTER_SANITIZE_STRING);
 
+if(isset($_REQUEST['name'])) $order['name'] = filter_var($_REQUEST['name'], FILTER_SANITIZE_STRING);
+if(isset($_REQUEST['email'])) $order['email'] = filter_var($_REQUEST['email'], FILTER_SANITIZE_EMAIL);
+if(isset($_REQUEST['phone'])) $order['email'] = filter_var($_REQUEST['phone'], FILTER_SANITIZE_STRING);
+
+
 // Database save row, and get this row ID
 require_once(API_ROOT_PATH.'/core/class/database/database.class.php');
 require_once(API_ROOT_PATH.'/core/config/pdo.config.php');
