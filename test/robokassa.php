@@ -18,15 +18,15 @@ require_once(API_ROOT_PATH.'/core/config/payments.config.php');
 
 // Get order data
 $order = array();
-$order['OutSum']    = 1122;
+$order['OutSum']    = 0;
 if(isset($_REQUEST['sum'])){
-    $_REQUEST['sum'] = preg_replace('/^[0-9\.]/', '', $_REQUEST['sum']);
+    $_REQUEST['sum'] = preg_replace('/[^0-9\.]/', '', $_REQUEST['sum']);
     $order['OutSum'] = $_REQUEST['sum'];
 }
-$order['Desc']      = "2233";
+$order['Desc']      = "";
 if(isset($_REQUEST['desc'])){
     $_REQUEST['desc'] = filter_var($_REQUEST['desc'], FILTER_SANITIZE_STRING);
-    $order['OutSum'] = $_REQUEST['desc'];
+    $order['Desc'] = $_REQUEST['desc'];
 }
 
 
