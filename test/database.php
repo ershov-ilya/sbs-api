@@ -19,13 +19,9 @@ require_once(API_ROOT_PATH.'/core/config/pdo.config.php');
 /* @var array $pdoconfig_lander */
 $db = new Database($pdoconfig_lander);
 
-$sql = 'SELECT * FROM log;';
-$res = $db->getOne($sql);
-print_r($res);
+//$sql = 'SELECT * FROM log;';
+//$res = $db->get($sql);
+//print_r($res);
 
-$data=array();
-$data['message']='foreach';
-//$data['order']='test/database.php';
-//$data['desc']='test/database.php';
-$lastID = $db->putOne('log', $data);
-var_dump($lastID);
+$res = $db->getTable('log', 0, 2);
+print_r($res);
