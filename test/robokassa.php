@@ -16,18 +16,17 @@ require_once('../core/config/core.config.php');
 require_once(API_ROOT_PATH.'/core/class/payments/robokassa/robokassa.class.php');
 require_once(API_ROOT_PATH.'/core/config/payments.config.php');
 
-$order = array(
-    'OutSum'        => 200.00,
-    'Desc'          => "Test",
-);
-
 require_once('../core/class/database/database.class.php');
 require_once('../core/config/pdo.config.php');
 $db = new Database($pdoconfig_lander);
+
+$order = array(
+    'OutSum'  => 200.50,
+    'Desc'    => "Robokassa testing",
+);
 $InvId = $db->putOne('payments', $order);
 
 print $InvId."\n";
-print_r($db->dbh->errorInfo());
 exit(1);
 
 $data=array(
