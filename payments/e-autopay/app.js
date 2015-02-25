@@ -10,5 +10,5 @@
 var docState = {};
 
 $(document).ready(function(){
-    console.log(docState);
+    console.log(docState.data);
 });

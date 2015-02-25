@@ -15,6 +15,13 @@ if(isset($_REQUEST['product'])) $product=$_REQUEST['product'];
 $id=preg_replace('/[^\d]/','', $product);
 if(empty($id)) die("Ошибка в запросе");
 
+$field=array();
+foreach($_REQUEST as $key => $val){
+    switch($key) {
+        default:
+        $field[$key] = $val;
+    }
+}
 ?>
 <!doctype html>
 <html>
@@ -35,6 +42,8 @@ if(empty($id)) die("Ошибка в запросе");
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="app.js"></script>
-
+<script type="text/javascript">
+    docState.data=<?=json_encode($field)?>;
+</script>
 </body>
 </html>
