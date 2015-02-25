@@ -9,19 +9,50 @@
  * Time: 12:51
  */
 
+$test=array(
+    'partner'   => 'ershov',
+    'name'      => 'Ершов Илья Никлаевич',
+    'product'   => 118315
+
+);
+
 header('Content-Type: text/html; charset=utf-8');
 $product=118315;
 if(isset($_REQUEST['product'])) $product=$_REQUEST['product'];
-$id=preg_replace('/[^\d]/','', $product);
-if(empty($id)) die("Ошибка в запросе");
+$_REQUEST['product']=preg_replace('/[^\d]/','', $product);
 
 $field=array();
 foreach($_REQUEST as $key => $val){
     switch($key) {
-        default:
-        $field[$key] = $val;
+        case 'name':
+        case 'partner':
+            $field[$key] = filter_var($val, FILTER_SANITIZE_STRING);
+            break;
+        case 'product':
+        $field[$key] = preg_replace('/[^\d]/','', $val);
+            break;
+        case 'email':
+            $field[$key] = filter_var($val, FILTER_SANITIZE_EMAIL);
+            break;
+        case 'cost':
+            $field[$key] = filter_var($val, FILTER_SANITIZE_NUMBER_FLOAT);
+            break;
+        case 'phone':
+        case 'program':
+        case 'speaker':
+        case 'land':
+            default:
+            $field[$key] = $val;
+            break;
     }
 }
+
+$field=array_merge($test, $field);
+if(empty($field['product'])) die("Ошибка в запросе");
+
+$url="http://";
+if(isset($field['partner'])) $url.=$field['partner'].'.';
+$url.="sbsedu.e-autopay.com/js/orderform_11566/$product"
 ?>
 <!doctype html>
 <html>
@@ -38,7 +69,7 @@ foreach($_REQUEST as $key => $val){
 
 <body>
 <div class="wrapper">
-    <script charset="UTF-8" type="text/javascript" src="http://sbsedu.e-autopay.com/js/orderform_11566/<?=$product?>"></script>
+    <script charset="UTF-8" type="text/javascript" src="<?=$url?>"></script>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="app.js"></script>

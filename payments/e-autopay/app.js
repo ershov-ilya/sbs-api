@@ -11,4 +11,14 @@ var docState = {};
 
 $(document).ready(function(){
     console.log(docState.data);
+    fillForm(docState.data);
 });
+
+function fillForm(data){
+    var ptr=$('.ea_form');
+
+    // ФИО
+
+    ptr.find('.ea_email').val(data.email);
+    ptr.find('.ea_phone').val(data.phone);
+}
