@@ -11,9 +11,7 @@
 
 $test=array(
     'partner'   => 'ershov',
-    'name'      => 'Ершов Илья Никлаевич',
     'product'   => 118315
-
 );
 
 header('Content-Type: text/html; charset=utf-8');
@@ -26,6 +24,10 @@ foreach($_REQUEST as $key => $val){
     switch($key) {
         case 'name':
         case 'partner':
+        case 'phone':
+        case 'program':
+        case 'speaker':
+        case 'land':
             $field[$key] = filter_var($val, FILTER_SANITIZE_STRING);
             break;
         case 'product':
@@ -37,13 +39,8 @@ foreach($_REQUEST as $key => $val){
         case 'cost':
             $field[$key] = filter_var($val, FILTER_SANITIZE_NUMBER_FLOAT);
             break;
-        case 'phone':
-        case 'program':
-        case 'speaker':
-        case 'land':
-            default:
-            $field[$key] = $val;
-            break;
+//            $field[$key] = $val;
+//            break;
     }
 }
 
