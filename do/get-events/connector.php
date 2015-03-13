@@ -11,7 +11,9 @@
  */
 /* CONFIG
 ------------------------------------------------------------------- */
-require('../config/api.config.php');
+require_once('../../core/config/core.config.php');
+require(CORE_PATH.'/config/api.config.php');
+
 if(isset($_GET['key']))
 {
     $config=getConfig($_GET['key']);

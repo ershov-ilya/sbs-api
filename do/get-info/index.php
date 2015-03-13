@@ -20,5 +20,13 @@ $content=file('input.csv');
 
 //print_r($content[0]);
 
+// Вычисления
+foreach($content as $str)
+{
+    $arr = explode(';', $str);
+    $output.=$arr[0]."\n";
+}
+
+// Вывод шаблона
 include(TEMPLATE_PATH.'/base.tpl.php');
 

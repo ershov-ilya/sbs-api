@@ -8,7 +8,7 @@ app.controller('GemController', ['$http', function($http){
     //this.rows = gems;
     var ptr = this;
 
-    var connector='/get-events/connector.php';
+    var connector='/do/get-events/connector.php';
     var key='';
     if(typeof(docState.campaign) != undefined) {key='/?key='+docState.campaign;}
     var url = connector+key;
