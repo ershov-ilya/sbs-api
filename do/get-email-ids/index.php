@@ -5,8 +5,9 @@
  * Date: 08.12.2014
  * Time: 14:45
  */
-require('../core/config/api.config.php');
-require('../lib/get.php');
+require_once('../../core/config/core.config.php');
+require(CORE_PATH.'/config/api.config.php');
+require(CORE_PATH.'/lib/get.php');
 //require('../lib/put.php');
 
 /* DEBUG
@@ -40,8 +41,6 @@ $env = 'suite7';
 
 /* Prepare
 ------------------------------------------------------------------- */
-if(DEBUG) print_r($config);
-
 $camp_id=(isset($_GET['id']))?($_GET['id']):(72804);
 
 //$uri='email';
@@ -51,7 +50,19 @@ if(DEBUG) print $uri."\n";
 
 /* Action
 ------------------------------------------------------------------- */
-$resp=emarsys_get($username, $password, $env, $uri);
+if(isset($_GET['re']))
+{
+    $resp=emarsys_get($username, $password, $env, $uri);
+    $resp_content=serialize($resp);
+    file_put_contents('cache.dat', $resp_content);
+}
+else
+{
+    if(is_file('cache.dat')){
+        $resp=unserialize(file_get_contents('cache.dat'));
+    }
+}
+
 
 if(DEBUG) {
     print "\n\nResponse:\n";
