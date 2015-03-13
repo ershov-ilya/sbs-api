@@ -29,10 +29,10 @@
 <div class="navbar navbar-inverse">
     <div class="container">
         <ul class="nav navbar-nav">
-            <li><a class="blog-nav-item active" href="/get-events/?campaign=mfpa">mfpa</a></li>
-            <li><a class="blog-nav-item active" href="/get-events/?campaign=sbs">sbs</a></li>
-            <li><a class="blog-nav-item active" href="/get-events/?campaign=egemetr">egemetr</a></li>
-            <li><a class="blog-nav-item active" href="/get-events/?campaign=megacampus">megacampus</a></li>
+            <li><a class="blog-nav-item active" href="/do/get-events/?campaign=mfpa">mfpa</a></li>
+            <li><a class="blog-nav-item active" href="/do/get-events/?campaign=sbs">sbs</a></li>
+            <li><a class="blog-nav-item active" href="/do/get-events/?campaign=egemetr">egemetr</a></li>
+            <li><a class="blog-nav-item active" href="/do/get-events/?campaign=megacampus">megacampus</a></li>
         </ul>
     </div>
 </div>

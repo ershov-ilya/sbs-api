@@ -1,2 +1,6 @@
 .idea/
+.git/
 cgi-bin/
+api.config.php
+pdo.config.php
+core/config

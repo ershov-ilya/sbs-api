@@ -40,8 +40,18 @@ $uri = "contact/getdata";
 /**/
 
 $list=array("a_s_w_4@mail.ru", "irishapo@gmail.com");
-print_r($list);
+//print_r($list);
 /**/
+
+if(isset($_GET['email'])){
+    header('Content-Type: text/plain; charset=utf-8');
+    define(DEBUG, true);
+    error_reporting(E_ALL);
+    ini_set("display_errors", 1);
+
+    $list=array($_GET['email']);
+}
+
 
 $params = array("keyId" => "3", "keyValues" => $list, "fields"=>array("1","2","3","31"));
 $data_string = json_encode($params);
@@ -49,14 +59,17 @@ $data_string = json_encode($params);
 /* Action
 ------------------------------------------------------------------- */
 $resp=emarsys_post($username, $password, $env, $uri, $data_string);
+print_r($resp);
 
-if(!empty($resp->data->errors))
+
+if(!empty($resp->data->errors)) // Если есть ошибка
 {
-    print "Errors:\n";
+    print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Error: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
     print_r($resp->data->errors);
 }
-
+/*
 print_r($resp->data->result);
+/**/
 
 /* Разбор по id;email
  * ------------------------------------------------- */

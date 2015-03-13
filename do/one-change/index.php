@@ -16,7 +16,8 @@ if (isset($_GET['test'])) {
     // Все поля контакта в Emarsys
     // http://documentation.emarsys.com/?page_id=573
     //emarsysOneChange('irishapo@gmail.com', 'mfpa', '31', '1');
-} else {
+}
+else {
     define(DEBUG, false);
 }
 

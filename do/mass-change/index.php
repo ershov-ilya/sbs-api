@@ -57,7 +57,7 @@ $params = array('contacts'=>$contacts_arr);
 $data_string = json_encode($params);
 if(DEBUG)
 {
-    //print_r($params);
+    print_r($params);
     print "json:\n".$data_string;
 }
 
