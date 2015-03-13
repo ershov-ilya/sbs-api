@@ -76,9 +76,6 @@ foreach($content as $str)
     $arr = explode(';', $str);
     $id=$arr[0];
 
-//    $date=$index[$id][2];
-//    $theme=preg_replace('/\r\n/','',$index[$id][3]);
-//    $output.=$id.";".$date.";".$theme;
     $output.=$id.";".$arr[1].";".$index[$id][2].";".$index[$id][3]."\n";
 }
 
