@@ -20,8 +20,9 @@ else  {define(DEBUG, false);}
 
 /* CONFIG
 ------------------------------------------------------------------- */
-require('../config/api.config.php');
-require('../lib/post.php');
+require_once('../../core/config/core.config.php');
+require(CORE_PATH.'/config/api.config.php');
+require(CORE_PATH.'/lib/post.php');
 
 $key='mfpa';
 $config=getConfig($key);
