@@ -5,6 +5,7 @@
  * Date: 08.12.2014
  * Time: 14:45
  */
+header('Content-Type: text/plain; charset=utf-8');
 require_once('../../core/config/core.config.php');
 require(CORE_PATH.'/config/api.config.php');
 require(CORE_PATH.'/lib/get.php');
@@ -14,14 +15,13 @@ require(CORE_PATH.'/lib/get.php');
 ------------------------------------------------------------------- */
 if(isset($_GET['test']) || isset($_GET['debug']))
 {
-    header('Content-Type: text/plain; charset=utf-8');
     define(DEBUG, true);
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
 }
 else
 {
-    header('Content-Type: text/html; charset=utf-8');
+//    header('Content-Type: text/html; charset=utf-8');
     define(DEBUG, false);
 }
 
