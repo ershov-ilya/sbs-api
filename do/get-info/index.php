@@ -9,6 +9,12 @@
  * Time: 13:37
  */
 
+// config
+require_once('../../core/config/core.config.php');
 $content=file('input.csv');
 
-print_r($content[0]);
+//print_r($content[0]);
+
+$output="=-==================";
+include(TEMPLATE_PATH.'/base.template.php');
+
