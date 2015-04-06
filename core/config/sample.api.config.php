@@ -1,10 +1,16 @@
 <?php
 /**
  * Created by PhpStorm.
+<<<<<<< HEAD
  * Author: ershov-ilya
  * Website: http://ershov.pw/
  * Date: 13.01.2015
  * Time: 10:53
+=======
+ * User: IErshov
+ * Date: 05.11.2014
+ * Time: 19:02
+>>>>>>> 6b099c07c75ba7f5c0bd951c38e1a89c62cda260
  */
 
 
