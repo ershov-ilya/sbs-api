@@ -9,17 +9,15 @@
  * Time: 12:51
  */
 
-$test=array(
-    'partner'   => 'ershov',
-    'product'   => 118315
-);
-
 header('Content-Type: text/html; charset=utf-8');
-$product=118315;
-if(isset($_REQUEST['product'])) $product=$_REQUEST['product'];
-$_REQUEST['product']=preg_replace('/[^\d]/','', $product);
-
+$test=array(
+//    'partner'   => 'ershov'
+);
 $field=array();
+$field['product']='';
+
+if(isset($_REQUEST['product'])) $field['product']=preg_replace('/[^\d]/','', $_REQUEST['product']);
+
 foreach($_REQUEST as $key => $val){
     switch($key) {
         case 'name':
@@ -45,7 +43,7 @@ foreach($_REQUEST as $key => $val){
 }
 
 $field=array_merge($test, $field);
-if(empty($field['product'])) die("Ошибка в запросе");
+if(empty($field['product'])) die("Error: Отсутствует ID продукта");
 
 $url="http://";
 if(isset($field['partner'])) $url.=$field['partner'].'.';
