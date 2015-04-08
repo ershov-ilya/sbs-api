@@ -24,7 +24,7 @@ require('../../../index.php');
 $props=array(
     'parents'   =>'24,929',
     'tpl'       =>'v3.bz.main-carousel.tpl',
-    'where'     =>"template IN ('41','27','50') AND published='1'",
+    'where'     =>"template IN ('41','27','50','52') AND published='1'",
     'limit'     =>'12',
     'depth'     =>1,
     'includeTVs'=>'lecture_theme,speaker,photo,view_count',
@@ -49,10 +49,13 @@ if(isset($_REQUEST['template']))
         case 'dispatch':
             $props['tpl']='v3.bz.dispatch-list.item.tpl';
             break;
+        case 'article':
+            $props['where'] ="template IN ('41','27','52')";
+            break;
         case 'theme':
             $props['parents']='24,929';
             $props['tpl']='v3.bz.theme-item.tpl';
-            $props['where'] ="template IN ('41','57','27') AND lecture_theme='".$props['filtervalue']."' AND published='1'";
+            $props['where'] ="template IN ('41','57','27','52') AND lecture_theme='".$props['filtervalue']."' AND published='1'";
             $props['includeTVs'] = "lecture_theme,speaker,photo,view_count";
             $props['showHidden']=0;
             $props['limit']=12;
@@ -69,9 +72,22 @@ if(isset($_REQUEST['template']))
             $props['depth']=10;
             break;
         case 'speakers-list':
+/*
+        &parents=`24`
+        &tpl=`v3.bz.speakers-list.item.tpl`
+        &limit=`12`
+        &includeTVs=`avatar,photo`
+        &where=`template IN ('55','31','38') AND published='1'`
+        &sortby=`pagetitle`
+        &sortdir=`ASC`
+*/
             $props['tpl']='v3.bz.speakers-list.item.tpl';
             $props['where'] ="template IN ('55','31','38') AND published='1'";
             $props['includeTVs'] ="avatar,photo";
+            $props['sortby'] ="pagetitle";
+            $props['sortdir'] ="ASC";
+            $props['showHidden']=0;
+            $props['showUnpublished']=0;
             break;
         case 'video-list':
             $props['parents']='24';
