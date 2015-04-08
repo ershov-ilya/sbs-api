@@ -32,22 +32,38 @@ $props=array(
     'page'      =>1
 );
 
-if(isset($_REQUEST['page'])) $props['page']=preg_replace('/[^\d]/','',$_REQUEST['page']);
+$props['filtervalue']=1653;
 if(isset($_REQUEST['parents'])) $props['parents']=preg_replace('/[^\d,]/','',$_REQUEST['parents']);
+if(isset($_REQUEST['page'])) $props['page']=preg_replace('/[^\d]/','',$_REQUEST['page']);
+if(isset($_REQUEST['filtervalue'])) $props['filtervalue']=preg_replace('/[^\d]/','',$_REQUEST['filtervalue']);
+
 if(isset($_REQUEST['template']))
 {
     switch($_REQUEST['template']){
         case 'dispatch':
             $props['tpl']='v3.bz.dispatch-list.item.tpl';
             break;
+        case 'theme':
+            $props['parents']='24,929';
+            $props['tpl']='v3.bz.theme-item.tpl';
+            $props['where'] ="template IN ('41','57','27') AND lecture_theme='".$props['filtervalue']."' AND published='1'";
+            $props['includeTVs'] = "lecture_theme,speaker,photo,view_count";
+            $props['showHidden']=0;
+            $props['limit']=12;
+            $props['depth']=10;
+            break;
         case 'schedule':
+            $today=date('Y-m-d H:i:s');
             $props['tpl']   ='v3.bz.schedule-list.item.tpl';
-            $props['where'] ="template IN ('9') AND published='1'";
+            $props['includeTVs'] ="lecture_theme,speaker,view_count,start_date,programm.land";
+            $props['sortby'] ="start_date";
+            $props['sortdir'] ="ASC";
+            $props['where'] ="template IN ('9') AND published='1' AND start_date>'$today'";
             break;
         case 'speakers-list':
             $props['tpl']='v3.bz.speakers-list.item.tpl';
             $props['where'] ="template IN ('55','31','38') AND published='1'";
-            $props['includeTVs'] ="avatar";
+            $props['includeTVs'] ="avatar,photo";
             break;
         case 'video-list':
             $props['parents']='24';
