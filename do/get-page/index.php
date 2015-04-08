@@ -24,7 +24,7 @@ require('../../../index.php');
 $props=array(
     'parents'   =>'24,929',
     'tpl'       =>'v3.bz.main-carousel.tpl',
-    'where'     =>"template IN ('41','27') AND published='1'",
+    'where'     =>"template IN ('41','27','50') AND published='1'",
     'limit'     =>'12',
     'depth'     =>1,
     'includeTVs'=>'lecture_theme,speaker,photo,view_count',
@@ -37,6 +37,12 @@ if(isset($_REQUEST['parents'])) $props['parents']=preg_replace('/[^\d,]/','',$_R
 if(isset($_REQUEST['page'])) $props['page']=preg_replace('/[^\d]/','',$_REQUEST['page']);
 if(isset($_REQUEST['filtervalue'])) $props['filtervalue']=preg_replace('/[^\d]/','',$_REQUEST['filtervalue']);
 
+/* Templates
+41  lecture
+57  Video
+27  Text.v2
+52  Article
+*/
 if(isset($_REQUEST['template']))
 {
     switch($_REQUEST['template']){
@@ -59,6 +65,8 @@ if(isset($_REQUEST['template']))
             $props['sortby'] ="start_date";
             $props['sortdir'] ="ASC";
             $props['where'] ="template IN ('9') AND published='1' AND start_date>'$today'";
+            $props['showHidden']=1;
+            $props['depth']=10;
             break;
         case 'speakers-list':
             $props['tpl']='v3.bz.speakers-list.item.tpl';
