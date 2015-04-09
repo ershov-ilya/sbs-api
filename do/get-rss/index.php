@@ -18,31 +18,45 @@ if(DEBUG){
     ini_set("display_errors", 1);
 }
 
+
+if(isset($_REQUEST['parents']))
+{
+    $parents=preg_replace('/\|\|/',',',$_REQUEST['parents']);
+    $parents=preg_replace('/[^\d,]/','',$parents);
+}
+$result='';
 ?><rss version="2.0" xmlns:jwplayer="http://rss.jwpcdn.com/">
     <channel>
-        <?
+<?
         defined('MODX_API_MODE') or define('MODX_API_MODE', true);
         require('../../../index.php');
 
-        // Default
+        // Self
         $props=array(
             'parents'   =>'24',
             'tpl'       =>'v3.bz.jwplayer.item.tpl',
-            'where'     =>"template IN ('41','57') AND published='1'",
+            'where'     =>"template IN ('41','57')",
             'limit'     =>'20',
-            'depth'     =>2,
+            'includeTVs'=>'code_youtube,photo',
+        );
+        if(isset($parents)) $props['resources']=$parents;
+        $result=$modx->runSnippet('pdoResources',$props);
+
+        // Children
+        $props=array(
+            'parents'   =>'24',
+            'tpl'       =>'v3.bz.jwplayer.item.tpl',
+            'where'     =>"template IN ('41','57')",
+            'limit'     =>'20',
+            'depth'     =>3,
             'includeTVs'=>'code_youtube,photo',
             'sortby'    =>'id',
             'sortdir'    =>'ASC',
         );
-
-        if(isset($_REQUEST['parents']))
-        {
-            $props['parents']=preg_replace('/\|\|/',',',$_REQUEST['parents']);
-            $props['parents']=preg_replace('/[^\d,]/','',$props['parents']);
+        if(isset($parents)){
+            $props['parents']=$parents;
         }
-
-        $result=$modx->runSnippet('pdoResources',$props);
+        $result.=$modx->runSnippet('pdoResources',$props);
 
         print $result;
         ?>
