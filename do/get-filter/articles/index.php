@@ -11,7 +11,8 @@
 
 
 header('Content-Type: text/plain; charset=utf-8');
-defined('DEBUG') or define('DEBUG', true);
+if(isset($_GET['debug'])) define('DEBUG', true);
+else define('DEBUG', false);
 
 if(DEBUG){
     error_reporting(E_ALL);
@@ -21,34 +22,63 @@ if(DEBUG){
 defined('MODX_API_MODE') or define('MODX_API_MODE', true);
 require('../../../../index.php');
 
+// Значения о умолчанию
 $props = array(
     "includeTVs" => 'lecture_theme,speaker,photo,view_count',
     "showHidden" => 0,
-    //'parents'=>'[[*id]]',
+    'parents'=>'929',
     'tpl' => 'v3.bz.main-carousel.tpl',
     'where' => "template IN ('41','27','52')",
     'limit' => 12,
-    'sortdir' => 'ASC'
+    'sortdir' => 'ASC',
+    'page' => 1
     );
 
+// Список полей разрешённых к фильтрации и сортировке
 $fields= array_merge(array('publishedon'), explode(',', $props["includeTVs"]));
 //print_r($fields);
+$YEAR=2015;
+$MONTH=0;
 
+// Поступающие значения
 foreach($_REQUEST as $key => $val)
 {
+    if(empty($val)) continue;
     switch($key)
     {
         case 'view':
             if(preg_match('/^col$/i', $val)) $props['tpl']='v3.bz.main-carousel.col.tpl';
             break;
+//        case 'parents':
+//            $props['parents'] = preg_replace('/[^\d,]/','',$val);
+//            break;
+        case 'page':
+            $props['page'] = preg_replace('/[^\d]/','',$val);
+            break;
         case 'sortby':
             foreach($fields as $sort_el) { if($val == $sort_el) $props["sortby"] = $sort_el; }
             break;
-        case 'filter':
-            foreach($fields as $filter_el)
-            {
-                if($val == $filter_el) $props["sortby"] = $filter_el;
-            }
+        case 'lecture_theme':
+            $clean_val = preg_replace('/[^\d]/', '', $val);
+            $props['where'] = $props['where'] . " AND lecture_theme = '" . $clean_val . "'";
+            break;
+        case 'filter_year':
+            $clean_val = preg_replace('/[^\d]/','',$val);
+            $YEAR=(int)$clean_val;
+
+            //mktime(hour,minute,second,month,day,year,is_dst[opt]);
+            $stampFrom =mktime(0,0,0,1,1,$YEAR);
+            $stampTo =mktime(0,0,0,1,1,$YEAR+1);
+            if(!isset($_REQUEST['filter_month'])) $props['where'] = $props['where']." AND publishedon > '".$stampFrom."' AND publishedon < '".$stampTo."'";
+            break;
+        case 'filter_month':
+            $clean_val = preg_replace('/[^\d]/','',$val);
+            $MONTH=(int)$clean_val;
+
+            //mktime(hour,minute,second,month,day,year,is_dst[opt]);
+            $stampFrom =mktime(0,0,0,$MONTH,1,$YEAR);
+            $stampTo =mktime(0,0,0,$MONTH+1,1,$YEAR);
+            $props['where'] = $props['where']." AND publishedon > '".$stampFrom."' AND publishedon < '".$stampTo."'";
             break;
         case 'sortdir':
             if(preg_match('/^desc$/i', $val)) $props['sortdir']='DESC';
@@ -58,4 +88,8 @@ foreach($_REQUEST as $key => $val)
 }
 
 
-print_r($props);
+if(DEBUG) print_r($props);
+else {
+    $result = $modx->runSnippet('pdoPage', $props);
+    print $result;
+}
