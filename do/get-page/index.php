@@ -84,7 +84,7 @@ if(isset($_REQUEST['template']))
             $props['tpl']='v3.bz.speakers-list.item.tpl';
             $props['where'] ="template IN ('55','31','38') AND published='1'";
             $props['includeTVs'] ="avatar,photo";
-            $props['sortby'] ="pagetitle";
+            $props['sortby'] ="menuindex";
             $props['sortdir'] ="ASC";
             $props['showHidden']=0;
             $props['showUnpublished']=0;
