@@ -30,8 +30,7 @@ $props = array(
     'tpl' => 'v3.bz.main-carousel.tpl',
     'where' => "template IN ('41','27','52')",
     'limit' => 12,
-    'sortdir' => 'ASC',
-    'page' => 1
+    'sortdir' => 'ASC'
     );
 
 // Список полей разрешённых к фильтрации и сортировке
@@ -46,21 +45,19 @@ foreach($_REQUEST as $key => $val)
     if(empty($val)) continue;
     switch($key)
     {
-        case 'view':
-            if(preg_match('/^col$/i', $val)) $props['tpl']='v3.bz.main-carousel.col.tpl';
-            break;
 //        case 'parents':
 //            $props['parents'] = preg_replace('/[^\d,]/','',$val);
 //            break;
-        case 'page':
-            $props['page'] = preg_replace('/[^\d]/','',$val);
-            break;
+//        case 'page':
+//            $props['page'] = preg_replace('/[^\d]/','',$val);
+//            //$props['page']=$val;
+//            break;
         case 'sortby':
             foreach($fields as $sort_el) { if($val == $sort_el) $props["sortby"] = $sort_el; }
             break;
         case 'lecture_theme':
             $clean_val = preg_replace('/[^\d]/', '', $val);
-            $props['where'] = $props['where'] . " AND lecture_theme = '" . $clean_val . "'";
+            if(!empty($clean_val)) $props['where'] = $props['where'] . " AND lecture_theme = '" . $clean_val . "'";
             break;
         case 'filter_year':
             $clean_val = preg_replace('/[^\d]/','',$val);
@@ -87,6 +84,7 @@ foreach($_REQUEST as $key => $val)
     }
 }
 
+//if($props['page']==1) unset($props['page']);
 
 if(DEBUG) print_r($props);
 else {
