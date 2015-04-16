@@ -11,6 +11,7 @@ $(document).ready(function(){
 	activateDropFilters();
 	// Сохраняем исходное состояние кнопки
 	docState.more_block_content =$('.more-block').html();
+	setTimeout(hideServiceLogo, 2000);
 
 	
   $('.carousel').bxSlider({
@@ -144,6 +145,10 @@ function hideJWlogo(){
 	else $(".jwlogo").remove();
 }
 
+function hideServiceLogo(){
+	$('.hc_footer_logo').remove();
+}
+
 /* Фильтры на страницах ----------------------------------------------------------------*/
 function activateFilters(){
 
@@ -155,13 +160,13 @@ function activateFilters(){
 		var option  = $(this).data('option');
 		if(docState.filter.sortby == option) // Повторное нажатие
 		{
-			if(!docState.filter.sortdir) docState.filter.sortdir=1;
-			else docState.filter.sortdir =0;
+			if(docState.filter.sortdir) docState.filter.sortdir=0;
+			else docState.filter.sortdir =1;
 		}
 		else // Новый выбор
 		{
 			docState.filter.sortby = $(this).data('option');
-			docState.filter.sortdir = 0;
+			docState.filter.sortdir = 1;
 		}
 
 		docState.filter_enabled=true;
@@ -189,11 +194,19 @@ function activateDropFilters() {
 	   return false;
 	});
 	
-	// Обработка фильтра
+	// Обработка фильтра "выпадающий список"
 	$(this).find('.drop-filter LI')
 		$(".drop-filter LI").click(function(){
-			var lecture_theme = $(this).find('a').data('option');
-			docState.filter.lecture_theme=lecture_theme;
+			var a = $(this).find('a');
+			var option = a.data('option');
+			
+			var filterWrap = $(this).closest('.drop-filter');
+			//console.log(filterWrap.get(0));
+			if(filterWrap.hasClass('themes-filter')) docState.filter.lecture_theme=option;
+			if(filterWrap.hasClass('year-filter')) docState.filter.filter_year=option;
+			if(filterWrap.hasClass('month-filter')) docState.filter.filter_month=option;
+			
+			
 			//console.log(lecture_theme);
 			var mycontent = $(this).html();
 			$(this).parents('.drop-filter').find('.drop-link').html(mycontent);
@@ -217,6 +230,12 @@ function SetFilterConnectorURL(){
 	{
 		case 'articles':
 		docState.filterURL = '/api/do/get-filter/articles/';
+		break;
+		case 'videos':
+		docState.filterURL = '/api/do/get-filter/video/';
+		break;
+		case 'dispatch':
+		docState.filterURL = '/api/do/get-filter/dispatch/';
 		break;
 	}
 	if(!docState.filterURL)
