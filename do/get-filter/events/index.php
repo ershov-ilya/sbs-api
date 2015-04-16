@@ -24,14 +24,15 @@ require('../../../../index.php');
 
 // Значения о умолчанию
 $props = array(
-    'parents'=>'973',
-    'tpl' => 'v3.bz.dispatch-list.item.tpl',
-    'where' => "template IN ('41','27','50') AND published='1'",
+    'parents'=>'263',
+    'tpl' => 'v3.bz.schedule-list.item.tpl',
+    'where' => "template IN ('9','59') AND published='1' AND start_date>CURDATE()",
     'limit' => 12,
-    'depth' => 1,
-    "includeTVs" => 'lecture_theme,speaker,photo,view_count',
-    "showHidden" => 0,
-    'sortdir' => 'ASC'
+    "includeTVs" => 'lecture_theme,speaker,view_count,start_date,programm.land',
+    'sortby' => 'start_date',
+    'sortdir' => 'ASC',
+    "showHidden" => 1,
+    'depth' => 1
     );
 
 // Список полей разрешённых к фильтрации и сортировке
@@ -73,7 +74,11 @@ foreach($DATA as $key => $val)
             //mktime(hour,minute,second,month,day,year,is_dst[opt]);
             $stampFrom =mktime(0,0,0,1,1,$YEAR);
             $stampTo =mktime(0,0,0,1,1,$YEAR+1);
-            if(!isset($DATA['filter_month'])) $props['where'] = $props['where']." AND publishedon > '".$stampFrom."' AND publishedon < '".$stampTo."'";
+
+            $dateFrom=date( 'Y-m-d H:i:s', $stampFrom);
+            $dateTo=date( 'Y-m-d H:i:s', $stampTo);
+
+            if(!isset($DATA['filter_month'])) $props['where'] = $props['where']." AND start_date > '".$dateFrom."' AND start_date < '".$dateTo."'";
             break;
         case 'filter_month':
             //if(empty($DATA['filter_year'])) $YEAR=2015;
@@ -84,7 +89,11 @@ foreach($DATA as $key => $val)
             //mktime(hour,minute,second,month,day,year,is_dst[opt]);
             $stampFrom =mktime(0,0,0,$MONTH,1,$YEAR);
             $stampTo =mktime(0,0,0,$MONTH+1,1,$YEAR);
-            $props['where'] = $props['where']." AND publishedon > '".$stampFrom."' AND publishedon < '".$stampTo."'";
+
+            $dateFrom=date( 'Y-m-d H:i:s', $stampFrom);
+            $dateTo=date( 'Y-m-d H:i:s', $stampTo);
+
+            $props['where'] = $props['where']." AND start_date > '".$dateFrom."' AND start_date < '".$dateTo."'";
             break;
         case 'sortdir':
             if(preg_match('/^desc$/i', $val)) $props['sortdir']='DESC';
