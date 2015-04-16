@@ -38,7 +38,7 @@ $props = array(
 // Список полей разрешённых к фильтрации и сортировке
 $fields= array_merge(array('publishedon'), explode(',', $props["includeTVs"]));
 //print_r($fields);
-$DEFAULT_YEAR=2015;
+$DEFAULT_YEAR=intval(date('Y'));
 $YEAR=$DEFAULT_YEAR;
 $MONTH=0;
 
