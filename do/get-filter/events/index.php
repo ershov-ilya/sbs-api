@@ -25,10 +25,10 @@ require('../../../../index.php');
 // Значения о умолчанию
 $props = array(
     'parents'=>'263',
-    'tpl' => 'v3.bz.schedule-list.item.tpl',
+    'tpl' => 'v3.bz.schedule-list.old-style.item.tpl',
     'where' => "template IN ('9','59') AND published='1' AND start_date>CURDATE()",
     'limit' => 12,
-    "includeTVs" => 'lecture_theme,speaker,view_count,start_date,programm.land',
+    "includeTVs" => 'lecture_theme,speaker,view_count,start_date,programm.land,cost,currency',
     'sortby' => 'start_date',
     'sortdir' => 'ASC',
     "showHidden" => 1,

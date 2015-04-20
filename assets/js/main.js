@@ -9,6 +9,7 @@ $(document).ready(function(){
 	activateAjaxButtons();
 	activateFilters();
 	activateDropFilters();
+	activatePopup()
 	// Сохраняем исходное состояние кнопки
 	docState.more_block_content =$('.more-block').html();
 	setTimeout(hideServiceLogo, 2000);
@@ -237,6 +238,9 @@ function SetFilterConnectorURL(){
 		case 'dispatch':
 		docState.filterURL = '/api/do/get-filter/dispatch/';
 		break;
+		case 'schedule':
+		docState.filterURL = '/api/do/get-filter/events/';
+		break;
 	}
 	if(!docState.filterURL)
 	{
@@ -317,5 +321,16 @@ function ajaxDefaultRequest()
 		}
 	});
 	return false;
+}
+
+function activatePopup(){
+	$('.hidelayout').click(function(){
+		$('.hidelayout, .old-style-popup').fadeOut(200);
+	});
+}
+
+function showPopup(id, type){
+	$('.hidelayout, .old-style-popup').fadeIn(200);
+	
 }
 
