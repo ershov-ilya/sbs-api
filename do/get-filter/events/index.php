@@ -28,7 +28,7 @@ $props = array(
     'tpl' => 'v3.bz.schedule-list.old-style.item.tpl',
     'where' => "template IN ('9','59') AND published='1' AND start_date>CURDATE()",
     'limit' => 12,
-    "includeTVs" => 'lecture_theme,speaker,view_count,start_date,programm.land,cost,currency',
+    "includeTVs" => 'lecture_theme,speaker,view_count,start_date,programm.land,cost,currency,city',
     'sortby' => 'start_date',
     'sortdir' => 'ASC',
     "showHidden" => 1,
@@ -65,6 +65,10 @@ foreach($DATA as $key => $val)
         case 'lecture_theme':
             $clean_val = preg_replace('/[^\d]/', '', $val);
             if(!empty($clean_val)) $props['where'] = $props['where'] . " AND lecture_theme = '" . $clean_val . "'";
+            break;
+        case 'city':
+            $clean_val = preg_replace('/[^\d]/', '', $val);
+            if(!empty($clean_val)) $props['where'] = $props['where'] . " AND city = '" . $clean_val . "'";
             break;
         case 'filter_year':
             $clean_val = preg_replace('/[^\d]/','',$val);

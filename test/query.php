@@ -44,7 +44,7 @@ require('../../index.php');
 //}
 
 $speaker=51;
-if(isset($_GET['id'])) $speaker=$_GET['id'];
+//if(isset($_GET['id'])) $speaker=$_GET['id'];
 
 
 //$q = $modx->newQuery('modResource');

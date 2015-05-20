@@ -17,3 +17,7 @@ if(DEBUG){
 
 defined('MODX_API_MODE') or define('MODX_API_MODE', true);
 require('../../index.php');
+
+$var = $modx->getChildIds(24);
+
+print "('".implode("','",$var)."')'";
