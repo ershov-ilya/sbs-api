@@ -26,11 +26,13 @@ require('../../../../index.php');
 $props = array(
     'parents'=>'263',
     'tpl' => 'v3.bz.schedule-list.old-style.item.tpl',
-    'where' => "template IN ('9','59') AND published='1' AND start_date>CURDATE()",
+    'where' => "template IN ('9','59','61') AND published='1' AND start_date>CURDATE()",
     'limit' => 12,
-    "includeTVs" => 'lecture_theme,speaker,view_count,start_date,programm.land,cost,currency,city',
-    'sortby' => 'start_date',
-    'sortdir' => 'ASC',
+    "includeTVs" => 'lecture_theme,speaker,view_count,start_date,programm.land,cost,currency,city,programm_priority',
+    'sortby' => '{
+            	"TVprogramm_priority.value": "DESC",
+            	"TVstart_date.value": "ASC"
+            }',
     "showHidden" => 1,
     'depth' => 1
     );
@@ -82,7 +84,7 @@ foreach($DATA as $key => $val)
             $dateFrom=date( 'Y-m-d H:i:s', $stampFrom);
             $dateTo=date( 'Y-m-d H:i:s', $stampTo);
 
-            if(!isset($DATA['filter_month'])) $props['where'] = $props['where']." AND start_date > '".$dateFrom."' AND start_date < '".$dateTo."'";
+            if(!isset($DATA['filter_month'])) $props['where'] = $props['where']." AND start_date >= '".$dateFrom."' AND start_date < '".$dateTo."'";
             break;
         case 'filter_month':
             //if(empty($DATA['filter_year'])) $YEAR=2015;
@@ -97,7 +99,7 @@ foreach($DATA as $key => $val)
             $dateFrom=date( 'Y-m-d H:i:s', $stampFrom);
             $dateTo=date( 'Y-m-d H:i:s', $stampTo);
 
-            $props['where'] = $props['where']." AND start_date > '".$dateFrom."' AND start_date < '".$dateTo."'";
+            $props['where'] = $props['where']." AND start_date >= '".$dateFrom."' AND start_date < '".$dateTo."'";
             break;
         case 'sortdir':
             if(preg_match('/^desc$/i', $val)) $props['sortdir']='DESC';

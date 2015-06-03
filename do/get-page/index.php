@@ -64,10 +64,13 @@ if(isset($_REQUEST['template']))
         case 'schedule':
             $today=date('Y-m-d H:i:s');
             $props['tpl']   ='v3.bz.schedule-list.old-style.item.tpl';
-            $props['includeTVs'] ="lecture_theme,speaker,view_count,start_date,programm.land,cost,currency";
-            $props['sortby'] ="start_date";
-            $props['sortdir'] ="ASC";
-            $props['where'] ="template IN ('9') AND published='1' AND start_date>'$today'";
+            $props['includeTVs'] ="lecture_theme,speaker,view_count,start_date,programm.land,cost,currency,programm_priority";
+            $props['sortby'] ='{
+            	"TVprogramm_priority.value": "DESC",
+            	"TVstart_date.value": "ASC"
+            }';
+            //$props['sortdir'] ="ASC";
+            $props['where'] ="template IN ('9','59','61') AND published='1' AND start_date>'$today'";
             $props['showHidden']=1;
             $props['depth']=10;
             break;
