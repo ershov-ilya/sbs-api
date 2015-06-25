@@ -70,9 +70,17 @@ if(isset($_REQUEST['template']))
             	"TVstart_date.value": "ASC"
             }';
             //$props['sortdir'] ="ASC";
-            $props['where'] ="template IN ('9','59','61') AND published='1' AND start_date>'$today'";
+            $props['where'] ="template IN ('9','59','61') AND published='1' AND start_date>CURDATE()";
             $props['showHidden']=1;
             $props['depth']=10;
+            break;
+        case 'news':
+            $props['tpl']   ='v3.bz.news-list.item.tpl';
+            $props['includeTVs'] ="photo,city,lecture_theme";
+            $props['where'] ="template IN ('10','60') AND published='1'";
+            $props['showHidden']=1;
+            $props['depth']=10;
+            $props['limit']=12;
             break;
         case 'speakers-list':
 /*
