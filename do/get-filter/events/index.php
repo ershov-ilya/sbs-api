@@ -28,7 +28,7 @@ $props = array(
     'tpl' => 'v3.bz.schedule-list.old-style.item.tpl',
     'where' => "template IN ('9','59','61') AND published='1' AND start_date>CURDATE()",
     'limit' => 12,
-    "includeTVs" => 'lecture_theme,speaker,view_count,start_date,programm.land,cost,currency,city,programm_priority',
+    "includeTVs" => 'lecture_theme,speaker,view_count,start_date,programm.land,cost,currency,city,programm_priority,city',
     'sortby' => '{
             	"TVprogramm_priority.value": "DESC",
             	"TVstart_date.value": "ASC"
@@ -36,6 +36,11 @@ $props = array(
     "showHidden" => 1,
     'depth' => 1
     );
+
+if(!isset($_REQUEST['city'])) {
+    $props['where'] .= " AND (city IS NULL OR city='943' OR city='2258')";
+    $props['paramCity']='263';
+}
 
 // Список полей разрешённых к фильтрации и сортировке
 $fields= array_merge(array('publishedon'), explode(',', $props["includeTVs"]));
@@ -70,7 +75,8 @@ foreach($DATA as $key => $val)
             break;
         case 'city':
             $clean_val = preg_replace('/[^\d]/', '', $val);
-            if(!empty($clean_val)) $props['where'] = $props['where'] . " AND city = '" . $clean_val . "'";
+            if(!empty($clean_val)) $props['where'] = $props['where'] . " AND (city = '" . $clean_val . "' OR city='2258')";
+            $props['paramCity']=$clean_val;
             break;
         case 'filter_year':
             $clean_val = preg_replace('/[^\d]/','',$val);
