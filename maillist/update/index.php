@@ -20,6 +20,7 @@ ini_set("display_errors", 1);
 if(isset($_REQUEST['t']))
     define('DEBUG', true);
 defined('DEBUG') or define('DEBUG', false);
+$response=array();
 
 /* MODX
 ------------------------------------------------------------------- */
@@ -30,6 +31,8 @@ require_once('../../../index.php');
 /* CONFIG
 ------------------------------------------------------------------- */
 require_once('../../core/config/core.config.php');
+require_once(API_CORE_PATH.'/class/restful/restful.class.php');
+
 
 /* @var modX $modx*/
 $user_id=$modx->user->id;
@@ -37,13 +40,16 @@ $obj=$modx->getObject('Maillists',array('internalKey'=>$user_id));
 if($obj==NULL){
     $obj=$modx->newObject('Maillists',array('internalKey'=>$user_id));
     $obj->save();
+    if($obj!=NULL) $response['action']='create';
+}
+else{
+    $response['action']='update';
 }
 
 //var_dump($obj->id);
 print_r($obj->toArray());
 
 
-$response=array();
 //$response['site_name']=$modx->getOption('site_name');
 $response['user_id']=$user_id;
 
