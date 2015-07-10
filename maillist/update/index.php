@@ -32,9 +32,10 @@ require_once('../../../index.php');
 ------------------------------------------------------------------- */
 require_once('../../core/config/core.config.php');
 require_once(API_CORE_PATH.'/class/restful/restful.class.php');
-
-
 /* @var modX $modx*/
+
+$request=array();
+
 $user_id=$modx->user->id;
 $obj=$modx->getObject('Maillists',array('internalKey'=>$user_id));
 if($obj==NULL){
@@ -43,11 +44,18 @@ if($obj==NULL){
     if($obj!=NULL) $response['action']='create';
 }
 else{
-    $response['action']='update';
+    if(empty($request))
+    {
+        $response['action']='get';
+        $response['data']=$obj->toArray();
+    }
+    else {
+        $response['action'] = 'update';
+    }
 }
 
 //var_dump($obj->id);
-print_r($obj->toArray());
+//print_r($obj->toArray());
 
 
 //$response['site_name']=$modx->getOption('site_name');
