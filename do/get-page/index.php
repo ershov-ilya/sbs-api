@@ -70,7 +70,7 @@ if(isset($_REQUEST['template']))
             	"TVstart_date.value": "ASC"
             }';
             //$props['sortdir'] ="ASC";
-            $props['where'] ="template IN ('9','59','61') AND published='1' AND start_date>CURDATE() AND (city IS NULL OR city='943' OR city='2258')";
+            $props['where'] ="template IN ('9','59','61') AND published='1' AND start_date>CURDATE() AND (city IS NULL OR city='931' OR city='943' OR city='2258')";
             $props['showHidden']=1;
             $props['depth']=10;
             break;

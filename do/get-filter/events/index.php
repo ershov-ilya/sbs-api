@@ -38,7 +38,7 @@ $props = array(
     );
 
 if(!isset($_REQUEST['city'])) {
-    $props['where'] .= " AND (city IS NULL OR city='943' OR city='2258')";
+    $props['where'] .= " AND (city IS NULL OR city='931' OR city='943' OR city='2258')";
     $props['paramCity']='263';
 }
 
