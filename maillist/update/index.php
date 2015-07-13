@@ -34,32 +34,39 @@ require_once('../../core/config/core.config.php');
 require_once(API_CORE_PATH.'/class/restful/restful.class.php');
 /* @var modX $modx*/
 
-$request=array();
 
-$user_id=$modx->user->id;
-$obj=$modx->getObject('Maillists',array('internalKey'=>$user_id));
-if($obj==NULL){
-    $obj=$modx->newObject('Maillists',array('internalKey'=>$user_id));
-    $obj->save();
-    if($obj!=NULL) $response['action']='create';
-}
-else{
-    if(empty($request))
-    {
-        $response['action']='get';
-        $response['data']=$obj->toArray();
-    }
-    else {
-        $response['action'] = 'update';
-    }
-}
+try {
+    $user_id = $modx->user->id;
+    if(!$user_id) throw new Exception('Auth needed', 403);
+    $request=$_POST;
 
+    $obj = $modx->getObject('Maillists', array('internalKey' => $user_id));
+    if ($obj == NULL) {
+        $obj = $modx->newObject('Maillists', array('internalKey' => $user_id));
+        $obj->save();
+        if ($obj != NULL) $response['action'] = 'create';
+    } else {
+        if (empty($request)) {
+            $response['action'] = 'get';
+            $response['data'] = $obj->toArray();
+        } else {
+            $response['action'] = 'update';
+            $response['data'] = $request;
+            foreach($request as $k => $v){
+                $obj->set($k, $v);
+            }
+            $obj->save();
+        }
+    }
+
+$response['user_id']=$user_id;
 //var_dump($obj->id);
 //print_r($obj->toArray());
-
-
-//$response['site_name']=$modx->getOption('site_name');
-$response['user_id']=$user_id;
+}
+catch(Exception $e){
+    $response['message']=$e->getMessage();
+    $response['code']=$e->getCode();
+}
 
 require_once(API_CORE_PATH.'/class/format/format.class.php');
 if(DEBUG) print Format::parse($response, 'php');
