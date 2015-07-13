@@ -53,7 +53,10 @@ try {
             $response['action'] = 'update';
             $response['data'] = $request;
             foreach($request as $k => $v){
-                $obj->set($k, $v);
+                $val=$v;
+                if($val == 'false' || $val === false) $val='0';
+                if($val == 'true' || $val === true) $val='1';
+                $obj->set($k, $val);
             }
             $res=$obj->save();
             $response['done']=$res;
