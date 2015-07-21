@@ -18,17 +18,25 @@ ini_set("display_errors", 1);
 define('API_ROOT',dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME']))));
 require_once(API_ROOT.'/core/config/core.config.php');
 
+if(DEBUG){
+    print_r($_SERVER);
+}
+
+$log='';
+$response='';
+
 if(isset($argv)){
-    $file=API_ROOT.'/core/cron/cron.log';
+    $file=API_CORE_PATH.'/cron/cron.log';
     $date=date("d.m.Y G:i:s");
-    $text="tick $date";
-//if(isset($_SERVER)) $text.=" SERVER;\n";
-    if(isset($argv)) $text.=" console\n";
-    $text.="\n";
-    $text.=$_SERVER['DOCUMENT_ROOT']."\n";
-    $text.=$_SERVER['SCRIPT_FILENAME']."\n";
-    file_put_contents($file, $text, FILE_APPEND);
-    if(DEBUG) print '$argv isset!'.PHP_EOL;
+    $log.="tick $date";
+//if(isset($_SERVER)) $log.=" SERVER;\n";
+    if(isset($argv)) $log.=" console\n";
+    $log.="\n";
+    file_put_contents($file, $log, FILE_APPEND);
     exit(0);
 }
 
+
+require_once(API_CORE_PATH.'/class/format/format.class.php');
+if(DEBUG) print Format::parse($response, 'php');
+else  print Format::parse($response, 'json');

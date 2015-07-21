@@ -5,10 +5,9 @@
  * GitHub:   https://github.com/ershov-ilya/
  * About me: http://about.me/ershov.ilya (EN)
  * Website:  http://ershov.pw/ (RU)
- * Date: 09.07.2015
- * Time: 14:01
+ * Date: 13.07.2015
+ * Time: 17:25
  */
-
 // TODO: Access-Control-Allow-Origin
 //header("Access-Control-Allow-Origin: http://sbs.edu.ru");
 header("Access-Control-Allow-Origin: *");
@@ -25,12 +24,12 @@ $response=array();
 /* MODX
 ------------------------------------------------------------------- */
 defined('MODX_API_MODE') or define('MODX_API_MODE', true);
-require_once('../../../index.php');
+require_once('../../../../index.php');
 
 
 /* CONFIG
 ------------------------------------------------------------------- */
-require_once('../../core/config/core.config.php');
+require_once('../../../core/config/core.config.php');
 require_once(API_CORE_PATH.'/class/restful/restful.class.php');
 /* @var modX $modx*/
 
@@ -40,9 +39,9 @@ try {
     if(!$user_id) throw new Exception('Auth needed', 403);
     $request=$_POST;
 
-    $obj = $modx->getObject('Maillists', array('internalKey' => $user_id));
+    $obj = $modx->getObject('CmpProfile', array('internalKey' => $user_id));
     if ($obj == NULL) {
-        $obj = $modx->newObject('Maillists', array('internalKey' => $user_id));
+        $obj = $modx->newObject('CmpProfile', array('internalKey' => $user_id));
         $obj->save();
         if ($obj != NULL) $response['action'] = 'create';
     } else {
@@ -63,8 +62,8 @@ try {
         }
     }
 
-$response['user_id']=$user_id;
-$response['code']=200;
+    $response['user_id']=$user_id;
+    $response['code']=200;
 //var_dump($obj->id);
 //print_r($obj->toArray());
 }
