@@ -28,7 +28,7 @@ $props = array(
     'tpl' => 'v3.bz.schedule-list.old-style.item.tpl',
     'where' => "template IN ('9','59','61') AND published='1' AND start_date>CURDATE()",
     'limit' => 12,
-    "includeTVs" => 'lecture_theme,speaker,view_count,start_date,programm.land,cost,currency,city,programm_priority,city',
+    "includeTVs" => 'lecture_theme,speaker,view_count,start_date,programm_land,cost,currency,city,programm_priority,city',
     'sortby' => '{
             	"TVprogramm_priority.value": "DESC",
             	"TVstart_date.value": "ASC"

@@ -64,7 +64,7 @@ if(isset($_REQUEST['template']))
         case 'schedule':
             $today=date('Y-m-d H:i:s');
             $props['tpl']   ='v3.bz.schedule-list.old-style.item.tpl';
-            $props['includeTVs'] ="lecture_theme,speaker,view_count,start_date,programm.land,cost,currency,programm_priority,city";
+            $props['includeTVs'] ="lecture_theme,speaker,view_count,start_date,programm_land,cost,currency,programm_priority,city";
             $props['sortby'] ='{
             	"TVprogramm_priority.value": "DESC",
             	"TVstart_date.value": "ASC"
