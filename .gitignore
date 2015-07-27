@@ -6,3 +6,5 @@ core/config/payments.config.php
 core/config/api.config.php
 core/config/pdo.config.php
 core/config/core.config.php
+test/private
+*.private.config.php
