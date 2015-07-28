@@ -21,18 +21,38 @@ require_once(API_ROOT.'/core/config/core.config.php');
 require_once(API_ROOT.'/core/config/pdo.config.php');
 require_once(API_CORE_PATH.'/class/format/format.class.php');
 require_once(API_CORE_PATH.'/class/database/database.class.php');
+require_once(API_ROOT_PATH.'/getresponse/get_messages.php');
+
+$messages=get_messages();
+//print_r($messages);
+
+$rows=array();
+$i=0;
+foreach($messages as $k => $m){
+    $row=array();
+    $row['message_id']=$k;
+    $m=(array)$m; // stdObject => Array
+
+    foreach($m as $li => &$lv){
+        if(is_array($lv)) $lv=implode(',',$lv);
+    }
+    $row=array_merge($row, $m);
+
+    $rows[]=$row;
+    $i++;
+//    if($i>7) break;
+}
+//print_r($rows);
+//exit(0);
 
 $db=new Database($pdoconfig);
-$result= $db->getTable('getresponse_tasks');
-$result=$result[0];
-unset($result['id']);
-$result['message_id']='A';
-print_r($result);
 
-
-$db->putOne('getresponse_tasks', $result, DB_FLAG_IGNORE);
+$overlay=array('state'=>'found');
+$fields='message_id,state,status,autoresponder_name,days_of_week,flags,action,time_travel,subject,name,content_types,editor_engine,send_on,editor_version,campaign,created_on,type,content';
+$db->put('getresponse_tasks',$fields, $rows, DB_FLAG_IGNORE, $overlay);
+//$db->putOne('getresponse_tasks', $result, DB_FLAG_IGNORE);
 print "Errors:\n";
-$db->errors();
+$db->sayError();
 
 exit(0);
 
