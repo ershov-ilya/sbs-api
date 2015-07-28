@@ -21,64 +21,27 @@ require_once(API_ROOT.'/core/config/core.config.php');
 require_once(API_ROOT.'/core/config/pdo.config.php');
 require_once(API_CORE_PATH.'/class/format/format.class.php');
 require_once(API_CORE_PATH.'/class/database/database.class.php');
-require_once(API_ROOT_PATH.'/getresponse/get_messages.php');
+require_once(API_ROOT_PATH.'/getresponse/get_message_contents.php');
 
-$messages=get_messages();
+//$messages=get_messages();
 //print_r($messages);
 
-$rows=array();
-$i=0;
-foreach($messages as $k => $m){
-    $row=array();
-    $row['message_id']=$k;
-    $m=(array)$m; // stdObject => Array
-
-    foreach($m as $li => &$lv){
-        if(is_array($lv)) $lv=implode(',',$lv);
-    }
-    $row=array_merge($row, $m);
-
-    $rows[]=$row;
-    $i++;
-//    if($i>7) break;
-}
-//print_r($rows);
-//exit(0);
-
 $db=new Database($pdoconfig);
+$row=$db->getOne('getresponse_tasks','found','state');
+//print_r($row);
+if(empty($row)) exit(0);
+$content=get_message_contents($row['message_id']);
+//print $content;
 
-$overlay=array('state'=>'found');
-$fields='message_id,state,status,autoresponder_name,days_of_week,flags,action,time_travel,subject,name,content_types,editor_engine,send_on,editor_version,campaign,created_on,type,content';
-$db->put('getresponse_tasks',$fields, $rows, DB_FLAG_IGNORE, $overlay);
-//$db->putOne('getresponse_tasks', $result, DB_FLAG_IGNORE);
-print "Errors:\n";
-$db->sayError();
+$db->updateOne('getresponse_tasks',$row['id'],array(
+    'state'=>'content',
+    'content' => $content
+));
 
-exit(0);
-
-//print Format::parse($_SERVER, 'php');
-//exit(0);
-
-if(DEBUG){
-    print_r($_SERVER);
+$errors=$db->errors();
+if(!empty($errors)){
+    $db->sayError();
 }
 
-$log='';
-$response='';
-
-if($_SERVER["DOCUMENT_ROOT"]==""){
-    $file=API_CORE_PATH.'/cron/cron.log';
-    $date=date("d.m.Y G:i:s");
-    $log.="tick $date";
-    $log.="\n\n";
-    if(isset($_SERVER)) $log.=Format::parse($_SERVER, 'php');
-    $log.="\n\n";
-    if(isset($argv)) $log.=" console\n";
-    $log.="\n";
-    file_put_contents($file, $log, FILE_APPEND);
-    exit(0);
-}
-
-
-if(DEBUG) print Format::parse($response, 'php');
-else  print Format::parse($response, 'json');
+//if(DEBUG) print Format::parse($response, 'php');
+//else  print Format::parse($response, 'json');
