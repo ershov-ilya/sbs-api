@@ -23,7 +23,17 @@ require_once(API_CORE_PATH.'/class/format/format.class.php');
 require_once(API_CORE_PATH.'/class/database/database.class.php');
 
 $db=new Database($pdoconfig);
-print $db->test();
+$result= $db->getTable('getresponse_tasks');
+$result=$result[0];
+unset($result['id']);
+$result['message_id']='A';
+print_r($result);
+
+
+$db->putOne('getresponse_tasks', $result, DB_FLAG_IGNORE);
+print "Errors:\n";
+$db->errors();
+
 exit(0);
 
 //print Format::parse($_SERVER, 'php');
