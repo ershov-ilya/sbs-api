@@ -9,25 +9,26 @@
  * Time: 16:59
  */
 
-header('Content-Type: text/plain; charset=utf-8');
+header('Content-Type: text/html; charset=utf-8');
 require_once('../core/config/core.config.php');
 //error_reporting(E_ALL);
 //ini_set("display_errors", 1);
 //defined('DEBUG') or define('DEBUG', true);
 
-function get_messages()
+function get_message_contents($message_id)
 {
     require_once(API_CORE_PATH . '/config/getresponse.private.config.php');
 
     $api_url = $getresponse_config['url'];
     $api_key = $getresponse_config['key'];
-    $api_method = 'get_messages';
-
-    $emptyObj =new stdClass();
+    $api_method = 'get_message_contents';
 
     $request_params = array(
         $api_key,
-        $emptyObj
+        array(
+            # find by name literally
+            'message' => $message_id
+        )
     );
     $request = array(
         'method' => $api_method,
@@ -53,14 +54,13 @@ function get_messages()
     curl_close($curl); #Завершаем сеанс cURL
 
     $response = json_decode($out);
-//    print_r($response);
-    return $response->result;
+    //print_r($response);
 
-//    $content = $response->result->html;
-//    return $content;
+    $content = $response->result->html;
+    return $content;
 }
 
-//get_messages();
+//print get_message_contents("0P");
 
 
 
