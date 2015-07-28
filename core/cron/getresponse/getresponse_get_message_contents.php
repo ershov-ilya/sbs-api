@@ -29,7 +29,9 @@ require_once(API_ROOT_PATH.'/getresponse/get_message_contents.php');
 $db=new Database($pdoconfig);
 $row=$db->getOne('getresponse_tasks','found','state');
 //print_r($row);
-if(empty($row)) exit(0);
+if(empty($row)) exit(0); // Точка останова, если делать ничего не надо
+
+
 $content=get_message_contents($row['message_id']);
 //print $content;
 
