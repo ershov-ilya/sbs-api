@@ -94,7 +94,7 @@ $config=array(
     'uri' => 'archive/'.$task['message_id'].'-'.$task['name'],
     'uri_override' => '1',
     'hide_children_in_tree' => '0',
-    'show_in_tree' => '1'
+    'show_in_tree' => '0'
 );
 
 //print_r($config);
