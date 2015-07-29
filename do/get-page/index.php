@@ -47,7 +47,9 @@ if(isset($_REQUEST['template']))
 {
     switch($_REQUEST['template']){
         case 'dispatch':
+            $props['parents']='973';
             $props['tpl']='v3.bz.dispatch-list.item.tpl';
+            $props['where']="template IN ('60') AND published='1'";
             break;
         case 'article':
             $props['where'] ="template IN ('41','27','52')";

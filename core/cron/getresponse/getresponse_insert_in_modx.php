@@ -23,6 +23,11 @@ require_once(API_CORE_PATH.'/class/format/format.class.php');
 require_once(API_CORE_PATH.'/class/database/database.class.php');
 require_once(API_ROOT_PATH.'/getresponse/get_message_contents.php');
 
+function _substr($text, $length)
+{
+    $length = strripos(substr($text, 0, $length), ' ');
+    return substr($text, 0, $length);
+}
 
 $db=new Database($pdoconfig);
 $task=$db->getOne('getresponse_tasks','parsed','state');
@@ -51,14 +56,49 @@ $modx->error->message = null; // Обнуляем переменную
 //}
 //$modx->initialize('mgr');
 
+//$resource=$db->getOne('modx_site_content',1383);
+//print_r($resource);
+
 $config=array(
+    'type' => 'document',
+    'contentType' => 'text/html',
+    'pagetitle' => $task['subject'],
+    'longtitle' => $task['subject'],
+    'description' => _substr($task['plain'], 200) . '...',
+    'alias' => $task['message_id'].'-'.$task['name'],
+    'introtext' => _substr($task['plain'], 250) . '...',
+    'published' => '1',
+    'pub_date' => '0',
+    'unpub_date' => '0',
     'parent' => '973',
-    'template' => '27',
-    'published' => '1'
+    'isfolder' => '0',
+    'content' => $task['content'],
+    'richtext' => '1',
+    'template' => '60',
+    'menuindex' => '0',
+    'searchable' => '1',
+    'cacheable' => '1',
+    'createdby' => '0',
+    'editedby' => '0',
+    'createdon' => strtotime($task['send_on']),
+    'editedon' => strtotime($task['send_on']),
+    'deleted' => '0',
+    'deletedon' => '0',
+    'deletedby' => '0',
+    'publishedon' => strtotime($task['send_on']),
+    'publishedby' => '0',
+    'hidemenu' => '0',
+    'class_key' => 'modDocument',
+    'context_key' => 'web',
+    'content_type' => '1',
+    'uri' => 'archive/'.$task['message_id'].'-'.$task['name'],
+    'uri_override' => '1',
+    'hide_children_in_tree' => '0',
+    'show_in_tree' => '1'
 );
 
-print_r($config);
-exit(0);
+//print_r($config);
+//exit(0);
 
 // Создаем ресурс
 //$response = $modx->runProcessor('resource/create', $config);
@@ -73,15 +113,23 @@ exit(0);
 //}
 
 $resource=$modx->newObject('modResource', $config);
-
-print 'New doc: ';
-print "\n";
-
-print $resource->get('pagetitle');
-print "\n";
-print "ID: ";
-print $resource->get('id');
-print "\n";
+//
+//print 'New doc: ';
+//print "\n";
+//
+//print $resource->get('pagetitle');
+//print "\n";
+//print "ID: ";
+//print $resource->get('id');
+//print "\n";
 
 // TODO: $doc->save();
-var_dump($resource->save());
+$res=$resource->save();
+//print $res;
+
+if($res){
+    $data['state']='saved';
+}else{
+    $data['state']='failed';
+}
+$db->updateOne('getresponse_tasks',$task['id'],$data);
