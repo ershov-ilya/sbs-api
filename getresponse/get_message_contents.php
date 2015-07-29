@@ -56,8 +56,14 @@ function get_message_contents($message_id)
     $response = json_decode($out);
     //print_r($response);
 
-    $content = $response->result->html;
-    return $content;
+    $answer=array();
+    $answer['content'] = $response->result->html;
+    $plain=$response->result->plain;
+    $plain=preg_replace('/\{\{.*\}\}/smUi','',$plain);
+    $plain=preg_replace('/""/smUi','',$plain);
+
+    $answer['plain'] = $plain;
+    return $answer;
 }
 
 //print get_message_contents("0P");

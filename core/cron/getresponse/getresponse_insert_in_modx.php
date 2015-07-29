@@ -27,19 +27,18 @@ require_once(API_ROOT_PATH.'/getresponse/get_message_contents.php');
 //print_r($messages);
 
 $db=new Database($pdoconfig);
-$row=$db->getOne('getresponse_tasks','found','state');
-//print_r($row);
-if(empty($row)) exit(0); // Точка останова, если делать ничего не надо
+$message=$db->getOne('getresponse_tasks','content','state');
+if(empty($message)) exit(0); // Точка останова, если делать ничего не надо
+print_r($message);
 
 
-$response=get_message_contents($row['message_id']);
-$content=$response['content'];
-$plain=$response['plain'];
+/*
+ * $content=get_message_contents($row['message_id']);
+//print $content;
 
 $db->updateOne('getresponse_tasks',$row['id'],array(
     'state'=>'content',
-    'content' => $content,
-    'plain' => $plain
+    'content' => $content
 ));
 
 $errors=$db->errors();
@@ -49,3 +48,4 @@ if(!empty($errors)){
 
 //if(DEBUG) print Format::parse($response, 'php');
 //else  print Format::parse($response, 'json');
+*/
