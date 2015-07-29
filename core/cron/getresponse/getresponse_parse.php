@@ -48,6 +48,8 @@ if(isset($content)) {
     $content=preg_replace('/html\>/im','div>',$content);
     $content=preg_replace('/\<body/im','<div',$content);
     $content=preg_replace('/\<\/body/im','</div',$content);
+    $content=preg_replace('/\<a/im','<span',$content);
+    $content=preg_replace('/\<\/a/im','</span',$content);
     $content=preg_replace('/\{\{.*\}\}/smUi','',$content);
     $content=preg_replace('/\<table.{1,400}(Не отображается письмо)+.*table\>/smUi','',$content);
     $content=preg_replace('/\<table.{1,400}(Поделитесь этим письмом)+.*table\>/smUi','',$content);
