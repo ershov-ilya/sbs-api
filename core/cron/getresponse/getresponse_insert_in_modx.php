@@ -31,11 +31,10 @@ if(empty($task)) exit(0); // Точка останова, если делать 
 
 // Подключаем
 /* @var modX $modx */
+/* @var modResource $resource */
 define('MODX_API_MODE', true);
 require(dirname(dirname(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME']))))).'/index.php');
-
-print $modx->getOption('site_name');
-exit(0);
+//print $modx->getOption('site_name');
 
 // Включаем обработку ошибок
 $modx->getService('error','error.modError');
@@ -58,9 +57,8 @@ $config=array(
     'published' => '1'
 );
 
-$config=array_merge($config,$_REQUEST);
-
 print_r($config);
+exit(0);
 
 // Создаем ресурс
 //$response = $modx->runProcessor('resource/create', $config);
@@ -74,7 +72,6 @@ print_r($config);
 //    print_r($response->response);
 //}
 
-/* @var modResource $resource */
 $resource=$modx->newObject('modResource', $config);
 
 print 'New doc: ';
