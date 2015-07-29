@@ -96,34 +96,9 @@ $config=array(
     'hide_children_in_tree' => '0',
     'show_in_tree' => '0'
 );
-
 //print_r($config);
-//exit(0);
-
-// Создаем ресурс
-//$response = $modx->runProcessor('resource/create', $config);
-//print_r($response->response);
-
-//if ($response->isError()) {
-//    $modx->log(modX::LOG_LEVEL_ERROR, $response->getMessage());
-//    return;
-//}
-//else {
-//    print_r($response->response);
-//}
 
 $resource=$modx->newObject('modResource', $config);
-//
-//print 'New doc: ';
-//print "\n";
-//
-//print $resource->get('pagetitle');
-//print "\n";
-//print "ID: ";
-//print $resource->get('id');
-//print "\n";
-
-// TODO: $doc->save();
 $res=$resource->save();
 //print $res;
 
