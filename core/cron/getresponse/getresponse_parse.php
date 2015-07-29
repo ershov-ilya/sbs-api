@@ -52,11 +52,11 @@ $content=preg_replace('/^[\s\r\n]+$/m','',$content); // Убираем пуст�
 // Вывод
 //print $content;
 if(isset($plain)) {
-    $plain = preg_replace('/Прехедер[ \n\r]*/m', '', $plain);
-    $plain = preg_replace('/Не отображается письмо\?[ \n\r]*/', '', $plain);
-    $plain = preg_replace('/Cмотрите веб-версию( письма){0,1}[ \n\r]*/', '', $plain);
+    $plain = preg_replace('/Прехедер[ \n\r]*/smi', '', $plain);
+    $plain = preg_replace('/Не отображается письмо.*$/smi', '', $plain);
+    $plain = preg_replace('/Cмотрите веб-версию( письма){0,1}[ \n\r]*/smi', '', $plain);
     $plain = preg_replace('/""/', '', $plain);
-    $plain = preg_replace('/^[\s\r\n]+$/', '', $plain); // Убираем пустые строки
+    $plain = preg_replace('/^[\s\r\n]+$/sm', '', $plain); // Убираем пустые строки
     $plain = $task['plain'];
 }
 
