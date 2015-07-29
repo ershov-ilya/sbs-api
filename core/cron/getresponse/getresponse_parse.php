@@ -28,6 +28,7 @@ $task=$db->getOne('getresponse_tasks','content','state');
 if(empty($task)) exit(0); // Точка останова, если делать ничего не надо
 
 $content=$task['content'];
+$plain=$task['plain'];
 
 // Фильтрация плохих писем
 if(preg_match('/Вы зарегистрировались/ism',$content)){
@@ -63,15 +64,18 @@ if(isset($content)) {
 // Вывод
 //print $content;
 if(isset($plain)) {
-    $plain = preg_replace('/Прехедер[ \n\r]*/smi', '', $plain);
-    $plain = preg_replace('/Не отображается письмо.*$/smi', '', $plain);
-    $plain = preg_replace('/Cмотрите веб-версию( письма){0,1}[ \n\r]*/smi', '', $plain);
-    $plain = preg_replace('/""/', '', $plain);
-    $plain = preg_replace('/^[\s\r\n]+$/sm', '', $plain); // Убираем пустые строки
-    $plain = $task['plain'];
+    $plain = preg_replace('/^Смотрите веб-версию.*$/mi', '', $plain);
+    $plain = preg_replace('/^веб-версию.*$/mi', '', $plain);
+    $plain = preg_replace('/Прехедер.*$/mi', '', $plain);
+    $plain = preg_replace('/Не отображается письмо.*$/mi', '', $plain);
+    $plain = preg_replace('/""/mi', '', $plain);
+    $plain = preg_replace('/^[\s\r\n]+$/m', '', $plain); // Убираем пустые строки
+    $plain = preg_replace('/^[\s\r\n]+/sm', '', $plain); // Убираем пустые строки
     $data['plain'] = $plain;
+    print $plain;
 }
 
 // Запись
 $data['state']='parsed';
 $db->updateOne('getresponse_tasks',$task['id'],$data);
+/**/
