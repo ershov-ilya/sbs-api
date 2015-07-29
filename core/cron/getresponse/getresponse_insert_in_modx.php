@@ -59,14 +59,19 @@ $modx->error->message = null; // Обнуляем переменную
 //$resource=$db->getOne('modx_site_content',1383);
 //print_r($resource);
 
+if(empty($task['plain'])) $introtext='';
+else $introtext=_substr($task['plain'], 250);
+
+$time=strtotime($task['send_on']);
+
 $config=array(
     'type' => 'document',
     'contentType' => 'text/html',
     'pagetitle' => $task['subject'],
     'longtitle' => $task['subject'],
-    'description' => _substr($task['plain'], 200) . '...',
+    'description' => $introtext,
     'alias' => $task['message_id'].'-'.$task['name'],
-    'introtext' => _substr($task['plain'], 250) . '...',
+    'introtext' => $introtext.'…',
     'published' => '1',
     'pub_date' => '0',
     'unpub_date' => '0',
@@ -80,12 +85,12 @@ $config=array(
     'cacheable' => '1',
     'createdby' => '0',
     'editedby' => '0',
-    'createdon' => strtotime($task['send_on']),
-    'editedon' => strtotime($task['send_on']),
+    'createdon' => $time,
+    'editedon' => $time,
     'deleted' => '0',
     'deletedon' => '0',
     'deletedby' => '0',
-    'publishedon' => strtotime($task['send_on']),
+    'publishedon' => $time,
     'publishedby' => '0',
     'hidemenu' => '0',
     'class_key' => 'modDocument',
