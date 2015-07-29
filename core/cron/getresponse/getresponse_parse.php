@@ -72,7 +72,7 @@ if(isset($plain)) {
     $plain = preg_replace('/^[\s\r\n]+$/m', '', $plain); // Убираем пустые строки
     $plain = preg_replace('/^[\s\r\n]+/sm', '', $plain); // Убираем пустые строки
     $data['plain'] = $plain;
-    print $plain;
+    //print $plain;
 }
 
 // Запись

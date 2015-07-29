@@ -27,14 +27,15 @@ require_once(API_ROOT_PATH.'/getresponse/get_message_contents.php');
 $db=new Database($pdoconfig);
 $task=$db->getOne('getresponse_tasks','parsed','state');
 if(empty($task)) exit(0); // Точка останова, если делать ничего не надо
-print_r($task);
+//print_r($task);
 
-exit(0);
 // Подключаем
-define('MODX_API_MODE', true);
-require('../../../index.php');
-
 /* @var modX $modx */
+define('MODX_API_MODE', true);
+require(dirname(dirname(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME']))))).'/index.php');
+
+print $modx->getOption('site_name');
+exit(0);
 
 // Включаем обработку ошибок
 $modx->getService('error','error.modError');
