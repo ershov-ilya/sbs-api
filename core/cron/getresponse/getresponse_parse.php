@@ -52,6 +52,11 @@ $content=implode("\n",$res);
 $content=preg_replace('/^[\s\r\n]+$/m','',$content); // Убираем пустые строки
 $content=preg_replace('/\<table.{1,400}(Поделитесь этим письмом)+.*table\>/smUi','',$content);
 $content=preg_replace('/\<table.{1,600}(Вы получили это письмо)+.*table\>/smUi','',$content);
+$content=preg_replace('/\<table.{1,600}(С уважением)+.*table\>/smUi','',$content);
+$content=preg_replace('/\<table.{1,600}(© 1988-)+.*table\>/smUi','',$content);
+$content=preg_replace('/\<table.{1,600}(\<a href="" title="Twitter")+.*table\>/smUi','',$content);
+$content=preg_replace('/\<table.{1,600}(\<a href="" title="LinkedIn")+.*table\>/smUi','',$content);
+$content=preg_replace('/\<table.{1,600}(веб-версию письма)+.*table\>/smUi','',$content);
 
 // Вывод
 print $content;
