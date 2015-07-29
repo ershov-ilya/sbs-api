@@ -29,25 +29,36 @@ if(empty($task)) exit(0); // Точка останова, если делать 
 
 $content=$task['content'];
 
+// Фильтрация плохих писем
+if(preg_match('/Вы зарегистрировались/ism',$content)){
+    $db->updateOne('getresponse_tasks',$task['id'],array(
+        'state'   => 'bad'
+    ));
+}
+
+
+$data=array();
+
 // Парсинг
-// Парсинг по подстрокам
-$content=preg_replace('/\<!DOCTYPE html>/smUi','',$content);
-$content=preg_replace('/\<!--.*--\>/smUi','',$content);
-$content=preg_replace('/\<head.*head\>/smUi','',$content);
-$content=preg_replace('/html\>/im','div>',$content);
-$content=preg_replace('/\<body/im','<div',$content);
-$content=preg_replace('/\<\/body/im','</div',$content);
-$content=preg_replace('/\{\{.*\}\}/smUi','',$content);
-$content=preg_replace('/\<table.{1,400}(Не отображается письмо)+.*table\>/smUi','',$content);
-$content=preg_replace('/\<table.{1,400}(Поделитесь этим письмом)+.*table\>/smUi','',$content);
-$content=preg_replace('/\<table.{1,600}(Вы получили это письмо)+.*table\>/smUi','',$content);
-$content=preg_replace('/\<table.{1,600}(С уважением)+.*table\>/smUi','',$content);
-$content=preg_replace('/\<table.{1,600}(© 1988-)+.*table\>/smUi','',$content);
-$content=preg_replace('/\<table.{1,600}(\<a href="" title="Twitter")+.*table\>/smUi','',$content);
-$content=preg_replace('/\<table.{1,600}(\<a href="" title="LinkedIn")+.*table\>/smUi','',$content);
-$content=preg_replace('/\<table.{1,600}(веб-версию письма)+.*table\>/smUi','',$content);
-$content=preg_replace('/^[\s\r\n]+$/m','',$content); // Убираем пустые строки
-/**/
+if(isset($content)) {
+    $content=preg_replace('/\<!DOCTYPE html>/smUi','',$content);
+    $content=preg_replace('/\<!--.*--\>/smUi','',$content);
+    $content=preg_replace('/\<head.*head\>/smUi','',$content);
+    $content=preg_replace('/html\>/im','div>',$content);
+    $content=preg_replace('/\<body/im','<div',$content);
+    $content=preg_replace('/\<\/body/im','</div',$content);
+    $content=preg_replace('/\{\{.*\}\}/smUi','',$content);
+    $content=preg_replace('/\<table.{1,400}(Не отображается письмо)+.*table\>/smUi','',$content);
+    $content=preg_replace('/\<table.{1,400}(Поделитесь этим письмом)+.*table\>/smUi','',$content);
+    $content=preg_replace('/\<table.{1,600}(Вы получили это письмо)+.*table\>/smUi','',$content);
+    $content=preg_replace('/\<table.{1,600}(С уважением)+.*table\>/smUi','',$content);
+    $content=preg_replace('/\<table.{1,600}(© 1988-)+.*table\>/smUi','',$content);
+    $content=preg_replace('/\<table.{1,600}(\<a href="" title="Twitter")+.*table\>/smUi','',$content);
+    $content=preg_replace('/\<table.{1,600}(\<a href="" title="LinkedIn")+.*table\>/smUi','',$content);
+    $content=preg_replace('/\<table.{1,600}(веб-версию письма)+.*table\>/smUi','',$content);
+    $content=preg_replace('/^[\s\r\n]+$/m','',$content); // Убираем пустые строки
+    $data['content'] = $content;
+}
 
 // Вывод
 //print $content;
@@ -58,21 +69,9 @@ if(isset($plain)) {
     $plain = preg_replace('/""/', '', $plain);
     $plain = preg_replace('/^[\s\r\n]+$/sm', '', $plain); // Убираем пустые строки
     $plain = $task['plain'];
-}
-
-
-// Запись
-if(preg_match('/Вы зарегистрировались/ism',$content)){
-    $db->updateOne('getresponse_tasks',$task['id'],array(
-        'state'   => 'bad'
-    ));
-}
-
-$data=array(
-    'state'   => 'parsed',
-    'content' => $content,
-);
-if(isset($plain)) {
     $data['plain'] = $plain;
 }
+
+// Запись
+$data['state']='parsed';
 $db->updateOne('getresponse_tasks',$task['id'],$data);
