@@ -50,7 +50,7 @@ $content=preg_replace('/\<table.{1,600}(веб-версию письма)+.*tabl
 /**/
 
 // Вывод
-print $content;
+//print $content;
 if(isset($plain)) {
     $plain = preg_replace('/Прехедер[ \n]*/m', '', $plain);
     $plain = preg_replace('/Не отображается письмо?[ \n]*/', '', $plain);
@@ -61,7 +61,6 @@ if(isset($plain)) {
 
 
 // Запись
-/*
 if(preg_match('/Вы зарегистрировались/ism',$content)){
     $db->updateOne('getresponse_tasks',$task['id'],array(
         'state'   => 'bad'
@@ -71,7 +70,7 @@ if(preg_match('/Вы зарегистрировались/ism',$content)){
 $data=array(
     'state'   => 'parsed',
     'content' => $content,
-)
+);
 if(isset($plain)) {
     $data['plain'] = $plain;
 }
