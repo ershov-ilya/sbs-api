@@ -47,7 +47,7 @@ foreach($messages as $k => $m){
 
 $db=new Database($pdoconfig);
 
-$overlay=array('state'=>'found');
+$overlay=array('state'=>'new');
 $fields='message_id,state,status,autoresponder_name,days_of_week,flags,action,time_travel,subject,name,content_types,editor_engine,send_on,editor_version,campaign,created_on,type,content';
 $db->put('getresponse_tasks',$fields, $rows, DB_FLAG_IGNORE, $overlay);
 

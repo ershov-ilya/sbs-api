@@ -38,7 +38,6 @@ $content=preg_replace('/html\>/im','div>',$content);
 $content=preg_replace('/\<body/im','<div',$content);
 $content=preg_replace('/\<\/body/im','</div',$content);
 $content=preg_replace('/\{\{.*\}\}/smUi','',$content);
-$content=preg_replace('/^[\s\r\n]+$/m','',$content); // Убираем пустые строки
 $content=preg_replace('/\<table.{1,400}(Не отображается письмо)+.*table\>/smUi','',$content);
 $content=preg_replace('/\<table.{1,400}(Поделитесь этим письмом)+.*table\>/smUi','',$content);
 $content=preg_replace('/\<table.{1,600}(Вы получили это письмо)+.*table\>/smUi','',$content);
@@ -47,15 +46,17 @@ $content=preg_replace('/\<table.{1,600}(© 1988-)+.*table\>/smUi','',$content);
 $content=preg_replace('/\<table.{1,600}(\<a href="" title="Twitter")+.*table\>/smUi','',$content);
 $content=preg_replace('/\<table.{1,600}(\<a href="" title="LinkedIn")+.*table\>/smUi','',$content);
 $content=preg_replace('/\<table.{1,600}(веб-версию письма)+.*table\>/smUi','',$content);
+$content=preg_replace('/^[\s\r\n]+$/m','',$content); // Убираем пустые строки
 /**/
 
 // Вывод
 //print $content;
 if(isset($plain)) {
-    $plain = preg_replace('/Прехедер[ \n]*/m', '', $plain);
-    $plain = preg_replace('/Не отображается письмо?[ \n]*/', '', $plain);
-    $plain = preg_replace('/Cмотрите веб-версию (письма ){0,1}[ \n]*/', '', $plain);
+    $plain = preg_replace('/Прехедер[ \n\r]*/m', '', $plain);
+    $plain = preg_replace('/Не отображается письмо\?[ \n\r]*/', '', $plain);
+    $plain = preg_replace('/Cмотрите веб-версию( письма){0,1}[ \n\r]*/', '', $plain);
     $plain = preg_replace('/""/', '', $plain);
+    $plain = preg_replace('/^[\s\r\n]+$/', '', $plain); // Убираем пустые строки
     $plain = $task['plain'];
 }
 
