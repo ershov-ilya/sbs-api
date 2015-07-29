@@ -23,14 +23,13 @@ require_once(API_CORE_PATH.'/class/format/format.class.php');
 require_once(API_CORE_PATH.'/class/database/database.class.php');
 require_once(API_ROOT_PATH.'/getresponse/get_message_contents.php');
 
-//$messages=get_messages();
-//print_r($messages);
-
 $db=new Database($pdoconfig);
-$message=$db->getOne('getresponse_tasks','content','state');
-if(empty($message)) exit(0); // Точка останова, если делать ничего не надо
+$task=$db->getOne('getresponse_tasks','content','state');
+if(empty($task)) exit(0); // Точка останова, если делать ничего не надо
 
-$content=$message['content'];
+$content=$task['content'];
+
+// Парсинг
 // Парсинг по подстрокам
 $content=preg_replace('/\<!DOCTYPE html>/smUi','',$content);
 $content=preg_replace('/\<!--.*--\>/smUi','',$content);
@@ -40,38 +39,31 @@ $content=preg_replace('/\<body/im','<div',$content);
 $content=preg_replace('/\<\/body/im','</div',$content);
 $content=preg_replace('/\{\{.*\}\}/smUi','',$content);
 
-
 // Парсинг по строкам целиком
 $arr=explode("\n",$content);
 $res=array();
 foreach($arr as $k=>$str){
-//    if(preg_match('/Поделитесь этим письмом/smi',$str)) continue;
-//    if(preg_match('/<!DOCTYPE html>/ism',$str)) continue;
     if(preg_match('/Не отображается письмо/ism',$str)) continue;
-    if(preg_match('/Вы получили это письмо/ism',$str)) continue;
     $res[]=$str;
 }
 $content=implode("\n",$res);
-$content=preg_replace('/^[\s\r\n]+$/m','',$content); // Убираем пустые строки
 
+/**/
+$content=preg_replace('/^[\s\r\n]+$/m','',$content); // Убираем пустые строки
+$content=preg_replace('/\<table.{1,400}(Поделитесь этим письмом)+.*table\>/smUi','',$content);
+$content=preg_replace('/\<table.{1,600}(Вы получили это письмо)+.*table\>/smUi','',$content);
+
+// Вывод
 print $content;
 
-
-
+// Запись
 /*
- * $content=get_message_contents($row['message_id']);
-//print $content;
-
-$db->updateOne('getresponse_tasks',$row['id'],array(
-    'state'=>'content',
+if(preg_match('/Вы зарегистрировались/ism',$content)){
+    $db->updateOne('getresponse_tasks',$task['id'],array(
+        'state'   => 'bad'
+    ));
+}
+$db->updateOne('getresponse_tasks',$task['id'],array(
+    'state'   => 'parsed',
     'content' => $content
 ));
-
-$errors=$db->errors();
-if(!empty($errors)){
-    $db->sayError();
-}
-
-//if(DEBUG) print Format::parse($response, 'php');
-//else  print Format::parse($response, 'json');
-*/
