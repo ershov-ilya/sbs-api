@@ -35,7 +35,7 @@ function set_subscription($user, $subscriptions){
 
 
     var_dump(getresponse_get_contacts($user, $account, $rpcClient));
-//    var_dump(getresponse_add_contact($user, 'test1', $account, $rpcClient));
+//    var_dump(getresponse_add_contact($user, $account, $rpcClient));
 //    var_dump(getresponse_delete_contact('LHEr', $account, $rpcClient));
 //    var_dump(getresponse_delete_email($user, $account, $rpcClient));
 
