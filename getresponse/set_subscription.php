@@ -34,7 +34,8 @@ function set_subscription($user, $subscriptions){
     $rpcClient = new jsonRPCClient($getresponse_config['url']);
 
     var_dump(getresponse_get_contacts($user, $account, $rpcClient));
-    var_dump(getresponse_get_campaign_name('a', $account, $rpcClient));
+//    var_dump(getresponse_get_contact_ids($user, $account, $rpcClient));
+//    var_dump(getresponse_get_campaign_name('a', $account, $rpcClient));
 //    var_dump(getresponse_add_contact($user, $account, $rpcClient));
 //    var_dump(getresponse_delete_contact('LHEr', $account, $rpcClient));
 //    var_dump(getresponse_delete_email($user, $account, $rpcClient));
@@ -50,7 +51,6 @@ function getresponse_add_contact($user, $account, &$rpcClient)
             'name' => array('EQUALS' => $user['campaign'])
         )
     );
-    print_r($campaigns);
     $CAMPAIGN_ID = array_keys($campaigns);
     $CAMPAIGN_ID=$CAMPAIGN_ID[0];
     $result = $rpcClient->add_contact(
@@ -76,9 +76,18 @@ function getresponse_get_contacts($user, $account, &$rpcClient)
             'email' => array('EQUALS' => $user['email'])
         )
     );
-    print_r($contacts);
     return $contacts;
+}
 
+function getresponse_get_contact_ids($user, $account, &$rpcClient)
+{
+    $contacts = $rpcClient->get_contacts(
+        $account['key'],
+        array(
+            # find by name literally
+            'email' => array('EQUALS' => $user['email'])
+        )
+    );
     $CONTACT_IDs = array_keys($contacts);
     return $CONTACT_IDs;
 }
