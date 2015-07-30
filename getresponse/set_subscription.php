@@ -33,12 +33,11 @@ function set_subscription($user, $subscriptions){
     require_once(API_ROOT_PATH.'/getresponse/jsonRPCClient.php');
     $rpcClient = new jsonRPCClient($getresponse_config['url']);
 
-
     var_dump(getresponse_get_contacts($user, $account, $rpcClient));
+    var_dump(getresponse_get_campaign_name('a', $account, $rpcClient));
 //    var_dump(getresponse_add_contact($user, $account, $rpcClient));
 //    var_dump(getresponse_delete_contact('LHEr', $account, $rpcClient));
 //    var_dump(getresponse_delete_email($user, $account, $rpcClient));
-
 }
 
 
@@ -77,8 +76,27 @@ function getresponse_get_contacts($user, $account, &$rpcClient)
             'email' => array('EQUALS' => $user['email'])
         )
     );
+    print_r($contacts);
+    return $contacts;
+
     $CONTACT_IDs = array_keys($contacts);
     return $CONTACT_IDs;
+}
+
+function getresponse_get_campaign_name($campaign_id, $account, &$rpcClient)
+{
+    $campaigns = $rpcClient->get_campaign(
+        $account['key'],
+        array(
+            # find by name literally
+            'campaign' => $campaign_id
+        )
+    );
+    foreach($campaigns as $campaign){
+        return $campaign['name'];
+        break;
+    }
+    return false;
 }
 
 function getresponse_delete_contact($contact_id, $account, &$rpcClient)
