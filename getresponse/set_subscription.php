@@ -23,7 +23,11 @@ $user=array(
     'campaign'  => 'test1'
 );
 
-set_subscription($user,'');
+$subscriptions=array(
+    'test1'     => 1
+);
+
+set_subscription($user,$subscriptions);
 
 /* @define API_CORE_PATH /core */
 function set_subscription($user, $subscriptions){
@@ -32,6 +36,10 @@ function set_subscription($user, $subscriptions){
 
     require_once(API_ROOT_PATH.'/getresponse/jsonRPCClient.php');
     $rpcClient = new jsonRPCClient($getresponse_config['url']);
+
+    foreach($subscriptions as $subscription){
+        var_dump($subscription);
+    }
 
     var_dump(getresponse_get_contacts($user, $account, $rpcClient));
 //    var_dump(getresponse_get_contact_ids($user, $account, $rpcClient));
