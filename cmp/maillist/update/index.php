@@ -42,7 +42,7 @@ try {
 
     $obj = $modx->getObject('Maillists', array('internalKey' => $user_id));
     if ($obj == NULL) {
-        $obj = $modx->newObject('Maillists', array('internalKey' => $user_id));
+        $obj = $modx->newObject('Maillists', array('internalKey' => $user_id, 'done'=>'empty'));
         $obj->save();
         if ($obj != NULL) $response['action'] = 'create';
     } else {
@@ -57,6 +57,7 @@ try {
                 if($val == 'false' || $val === false) $val='0';
                 if($val == 'true' || $val === true) $val='1';
                 $obj->set($k, $val);
+                $obj->set('done','changed');
             }
             $res=$obj->save();
             $response['done']=$res;
