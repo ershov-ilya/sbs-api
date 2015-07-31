@@ -21,15 +21,13 @@ require_once(API_ROOT.'/core/config/pdo.config.php');
 require_once(API_CORE_PATH.'/class/format/format.class.php');
 require_once(API_CORE_PATH.'/class/database/database.class.php');
 
-$user=array(
-    'name'      => 'Tester',
-    'email'     => 'tester@effetto.pro'
-);
-$campaign_name='test1';
 
 $db=new Database($pdoconfig);
 $task=$db->getOne('modx_maillists','changed','done','id,internalKey,done,name,email,free_webinars,knowledge_base,events');
 if(empty($task)) exit(0);
+
+$campaign_name='dead';
+if(DEBUG) $task['email']='tester3@effetto.pro';
 print_r($task);
 
 // Теперь на что подписываем
@@ -42,10 +40,81 @@ foreach($task as $k => $v){
         'set'   => $v
     );
 }
-//print_r($subscript);
 
-test($task,$subscript);
-//set_subscription($task,$subscript);
+//test($task,$subscript);
+set_subscription($task,$subscript);
+
+
+/* Функции
+ --------------------------------------------------- */
+function test($task, $subscript){
+    if(DEBUG) {
+        print "function test()\n";
+    }
+    require_once(API_CORE_PATH.'/config/getresponse.private.config.php');
+    $account=$getresponse_config;
+
+    require_once(API_ROOT_PATH.'/getresponse/jsonRPCClient.php');
+    $rpcClient = new jsonRPCClient($getresponse_config['url']);
+
+//    var_dump(getresponse_add_contact_to_cid($task, 'J', $account, $rpcClient));
+    var_dump(getresponse_get_contacts($task, $account, $rpcClient));
+//    var_dump(translate_field('free_webinars'));
+//    var_dump(getresponse_get_contact_ids($task, $account, $rpcClient));
+//    var_dump(getresponse_get_campaign_name('a', $account, $rpcClient));
+//    var_dump(getresponse_get_campaign_id('J', $account, $rpcClient));
+//    var_dump(getresponse_add_contact($task, $campaign_name, $account, $rpcClient));
+//    var_dump(getresponse_delete_contact('LHEr', $account, $rpcClient));
+//    var_dump(getresponse_delete_email($task, $account, $rpcClient));
+}
+
+function set_subscription($task, $subscript){
+    require_once(API_CORE_PATH.'/config/getresponse.private.config.php');
+    $account=$getresponse_config;
+
+    require_once(API_ROOT_PATH.'/getresponse/jsonRPCClient.php');
+    $rpcClient = new jsonRPCClient($getresponse_config['url']);
+
+    $contacts=getresponse_get_contacts($task, $account, $rpcClient);
+
+    if(empty($contacts)){
+        foreach($subscript as $s){
+            if($s['set']){
+                $res=getresponse_add_contact_to_cid($task, $s['id'], $account, $rpcClient);
+                if(DEBUG) {
+                    print "Add ".$task['email'].' to '.$s['name'].' Result:'.PHP_EOL;
+                    var_dump($res);
+                }
+            }
+        }
+    }else{
+        // Запоминаем куда подписан
+        $subscribed_arr=array();
+        foreach($contacts as $contact){
+            $subscribed_arr[]=$contact['campaign'];
+        }
+        if(DEBUG) {
+            print "Подписан:\n";
+            print_r($subscribed_arr);
+            print "Цель:\n";
+            print_r($subscript);
+        }
+        // Определяем куда подписать, где отписать
+        $on_arr=array();
+        $off_arr=array();
+        foreach($subscript as $need){
+//            if(){}
+        }
+        if(DEBUG) {
+            print "Подписать:\n";
+            print_r($on_arr);
+            print "Отписать:\n";
+            print_r($off_arr);
+        }
+    }
+
+}
+
 
 
 function translate_field($field, $dir='form-id'){
@@ -71,49 +140,6 @@ function translate_field($field, $dir='form-id'){
     return false;
 }
 
-function set_subscription($task, $subscript){
-    require_once(API_CORE_PATH.'/config/getresponse.private.config.php');
-    $account=$getresponse_config;
-
-    require_once(API_ROOT_PATH.'/getresponse/jsonRPCClient.php');
-    $rpcClient = new jsonRPCClient($getresponse_config['url']);
-
-    $contacts=getresponse_get_contacts($task, $account, $rpcClient);
-
-    if(empty($contacts)){
-        foreach($subscript as $s){
-            if($s['set']){
-                $res=getresponse_add_contact_to_cid($task, $s['id'], $account, $rpcClient);
-                if(DEBUG) {
-                    print "Add ".$task['email'].' to '.$s['name'].' Result:'.PHP_EOL;
-                    var_dump($res);
-                }
-            }
-        }
-    }else{
-        print_r($contacts);
-    }
-
-}
-
-
-
-function test($task, $subscript){
-    require_once(API_CORE_PATH.'/config/getresponse.private.config.php');
-    $account=$getresponse_config;
-
-    require_once(API_ROOT_PATH.'/getresponse/jsonRPCClient.php');
-    $rpcClient = new jsonRPCClient($getresponse_config['url']);
-
-//    var_dump(translate_field('free_webinars'));
-    var_dump(getresponse_get_contacts($task, $account, $rpcClient));
-//    var_dump(getresponse_get_contact_ids($user, $account, $rpcClient));
-//    var_dump(getresponse_get_campaign_name('a', $account, $rpcClient));
-//    var_dump(getresponse_get_campaign_id('J', $account, $rpcClient));
-//    var_dump(getresponse_add_contact($user, $campaign_name, $account, $rpcClient));
-//    var_dump(getresponse_delete_contact('LHEr', $account, $rpcClient));
-//    var_dump(getresponse_delete_email($user, $account, $rpcClient));
-}
 
 function getresponse_add_contact($user, $campaign_name, $account, &$rpcClient)
 {
@@ -135,6 +161,10 @@ function getresponse_add_contact($user, $campaign_name, $account, &$rpcClient)
 
 function getresponse_add_contact_to_cid($user, $CAMPAIGN_ID, $account, &$rpcClient)
 {
+    if(DEBUG) {
+        print "function getresponse_add_contact_to_cid()\n";
+        print_r($user);
+    }
     $result = $rpcClient->add_contact(
         $account['key'],
         array(

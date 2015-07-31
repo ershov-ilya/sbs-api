@@ -57,18 +57,20 @@ try {
                 if($val == 'false' || $val === false) $val='0';
                 if($val == 'true' || $val === true) $val='1';
                 $obj->set($k, $val);
-                $obj->set('done','changed');
-                $user = $modx->getUser();
-                if ($user) {
-                    $profile = $user->getOne('Profile');
-                    if ($profile) {
-                        $email=$profile->get('email');
-                        $obj->set('email',$email);
-                        $name=$profile->get('fullname');
-                        $obj->set('name',$name);
-                    }
+            }
+            $obj->set('done','changed');
+            /*
+            $user = $modx->getUser();
+            if ($user) {
+                $profile = $user->getOne('Profile');
+                if ($profile) {
+                    $email=$profile->get('email');
+                    $obj->set('email',$email);
+                    $name=$profile->get('fullname');
+                    $obj->set('name',$name);
                 }
             }
+            */
             $res=$obj->save();
             $response['done']=$res;
         }
