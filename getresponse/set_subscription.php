@@ -22,12 +22,13 @@ require_once(API_CORE_PATH.'/class/database/database.class.php');
 
 $user=array(
     'name'      => 'Tester',
-    'email'     => 'tester@effetto.pro',
-    'campaign'  => 'test1'
+    'email'     => 'tester@effetto.pro'
 );
+$campaign_name='test1';
 
 $db=new Database($pdoconfig);
-$task=$db->getOne('modx_maillists','changed','done','id,internalKey,done,free_webinars,knowledge_base,events');
+$task=$db->getOne('modx_maillists','changed','done','id,internalKey,done,name,email,free_webinars,knowledge_base,events');
+if(empty($task)) exit(0);
 print_r($task);
 
 // Теперь на что подписываем
@@ -37,10 +38,9 @@ foreach($task as $k => $v){
     if($f) $subscript[$f]=$v;
 }
 print_r($subscript);
-exit(0);
 
-test($user,$subscriptions);
-//set_subscription($user,$subscriptions);
+//test($task,$subscript);
+set_subscription($task,$subscript);
 
 
 function translate_field($field, $dir='form-id'){
@@ -66,6 +66,19 @@ function translate_field($field, $dir='form-id'){
     return false;
 }
 
+function set_subscription($user, $subscriptions){
+    require_once(API_CORE_PATH.'/config/getresponse.private.config.php');
+    $account=$getresponse_config;
+
+    require_once(API_ROOT_PATH.'/getresponse/jsonRPCClient.php');
+    $rpcClient = new jsonRPCClient($getresponse_config['url']);
+
+//    foreach($subscriptions as $subscription){
+//        print_r($subscription);
+//    }
+}
+
+
 
 function test($user, $subscriptions){
     require_once(API_CORE_PATH.'/config/getresponse.private.config.php');
@@ -81,34 +94,14 @@ function test($user, $subscriptions){
 //    var_dump(getresponse_get_contact_ids($user, $account, $rpcClient));
 //    var_dump(getresponse_get_campaign_name('a', $account, $rpcClient));
 //    var_dump(getresponse_get_campaign_id('J', $account, $rpcClient));
-//    var_dump(getresponse_add_contact($user, $account, $rpcClient));
+//    var_dump(getresponse_add_contact($user, $campaign_name, $account, $rpcClient));
 //    var_dump(getresponse_delete_contact('LHEr', $account, $rpcClient));
 //    var_dump(getresponse_delete_email($user, $account, $rpcClient));
 }
 
-function set_subscription($user, $subscriptions){
-    require_once(API_CORE_PATH.'/config/getresponse.private.config.php');
-    $account=$getresponse_config;
-
-    require_once(API_ROOT_PATH.'/getresponse/jsonRPCClient.php');
-    $rpcClient = new jsonRPCClient($getresponse_config['url']);
-
-//    foreach($subscriptions as $subscription){
-//        print_r($subscription);
-//    }
-}
-
-
-function getresponse_add_contact($user, $account, &$rpcClient)
+function getresponse_add_contact($user, $campaign_name, $account, &$rpcClient)
 {
-    $campaigns = $rpcClient->get_campaigns(
-        $account['key'],
-        array(
-            # find by name literally
-            'name' => array('EQUALS' => $user['campaign'])
-        )
-    );
-    $CAMPAIGN_ID = array_keys($campaigns);
+    $CAMPAIGN_ID = getresponse_get_campaign_id($campaign_name, $account, &$rpcClient);
     $CAMPAIGN_ID=$CAMPAIGN_ID[0];
     $result = $rpcClient->add_contact(
         $account['key'],

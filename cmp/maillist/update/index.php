@@ -63,9 +63,9 @@ try {
                     $profile = $user->getOne('Profile');
                     if ($profile) {
                         $email=$profile->get('email');
-                        if($email){
-                            $obj->set('email',$email);
-                        }
+                        $obj->set('email',$email);
+                        $name=$profile->get('fullname');
+                        $obj->set('name',$name);
                     }
                 }
             }
