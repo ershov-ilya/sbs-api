@@ -12,7 +12,8 @@
 header('Content-Type: text/plain; charset=utf-8');
 //error_reporting(E_ALL);
 //ini_set("display_errors", 1);
-defined('DEBUG') or define('DEBUG', true);
+if(isset($_GET['t'])) define('DEBUG', true);
+defined('DEBUG') or define('DEBUG', false);
 
 define('API_ROOT',dirname(dirname($_SERVER['SCRIPT_FILENAME'])));
 require_once(API_ROOT.'/core/config/core.config.php');
@@ -41,10 +42,10 @@ foreach($task as $k => $v){
         'set'   => $v
     );
 }
-print_r($subscript);
+//print_r($subscript);
 
-//test($task,$subscript);
-set_subscription($task,$subscript);
+test($task,$subscript);
+//set_subscription($task,$subscript);
 
 
 function translate_field($field, $dir='form-id'){
@@ -80,27 +81,32 @@ function set_subscription($task, $subscript){
     $contacts=getresponse_get_contacts($task, $account, $rpcClient);
 
     if(empty($contacts)){
-
+        foreach($subscript as $s){
+            if($s['set']){
+                $res=getresponse_add_contact_to_cid($task, $s['id'], $account, $rpcClient);
+                if(DEBUG) {
+                    print "Add ".$task['email'].' to '.$s['name'].' Result:'.PHP_EOL;
+                    var_dump($res);
+                }
+            }
+        }
+    }else{
+        print_r($contacts);
     }
 
-//    foreach($subscript as $subscription){
-//        print_r($subscription);
-//    }
 }
 
 
 
-function test($user, $subscriptions){
+function test($task, $subscript){
     require_once(API_CORE_PATH.'/config/getresponse.private.config.php');
     $account=$getresponse_config;
 
     require_once(API_ROOT_PATH.'/getresponse/jsonRPCClient.php');
     $rpcClient = new jsonRPCClient($getresponse_config['url']);
 
-    var_dump(
-        translate_field('free_webinars')
-    );
-//    var_dump(getresponse_get_contacts($user, $account, $rpcClient));
+//    var_dump(translate_field('free_webinars'));
+    var_dump(getresponse_get_contacts($task, $account, $rpcClient));
 //    var_dump(getresponse_get_contact_ids($user, $account, $rpcClient));
 //    var_dump(getresponse_get_campaign_name('a', $account, $rpcClient));
 //    var_dump(getresponse_get_campaign_id('J', $account, $rpcClient));
@@ -113,6 +119,22 @@ function getresponse_add_contact($user, $campaign_name, $account, &$rpcClient)
 {
     $CAMPAIGN_ID = getresponse_get_campaign_id($campaign_name, $account, &$rpcClient);
     $CAMPAIGN_ID=$CAMPAIGN_ID[0];
+    $result = $rpcClient->add_contact(
+        $account['key'],
+        array(
+            # identifier of 'test' campaign
+            'campaign' => $CAMPAIGN_ID,
+
+            # basic info
+            'name' => $user['name'],
+            'email' => $user['email'],
+        )
+    );
+    return $result;
+}
+
+function getresponse_add_contact_to_cid($user, $CAMPAIGN_ID, $account, &$rpcClient)
+{
     $result = $rpcClient->add_contact(
         $account['key'],
         array(
