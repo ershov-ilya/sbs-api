@@ -35,7 +35,11 @@ print_r($task);
 $subscript=array();
 foreach($task as $k => $v){
     $f=translate_field($k);
-    if($f) $subscript[$f]=$v;
+    if($f) $subscript[]=array(
+        'id'    => $f,
+        'name'  => $k,
+        'set'   => $v
+    );
 }
 print_r($subscript);
 
@@ -66,14 +70,20 @@ function translate_field($field, $dir='form-id'){
     return false;
 }
 
-function set_subscription($user, $subscriptions){
+function set_subscription($task, $subscript){
     require_once(API_CORE_PATH.'/config/getresponse.private.config.php');
     $account=$getresponse_config;
 
     require_once(API_ROOT_PATH.'/getresponse/jsonRPCClient.php');
     $rpcClient = new jsonRPCClient($getresponse_config['url']);
 
-//    foreach($subscriptions as $subscription){
+    $contacts=getresponse_get_contacts($task, $account, $rpcClient);
+
+    if(empty($contacts)){
+
+    }
+
+//    foreach($subscript as $subscription){
 //        print_r($subscription);
 //    }
 }
