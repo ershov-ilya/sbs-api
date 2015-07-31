@@ -59,7 +59,6 @@ try {
                 $obj->set($k, $val);
             }
             $obj->set('done','changed');
-            /*
             $user = $modx->getUser();
             if ($user) {
                 $profile = $user->getOne('Profile');
@@ -70,7 +69,6 @@ try {
                     $obj->set('name',$name);
                 }
             }
-            */
             $res=$obj->save();
             $response['done']=$res;
         }
