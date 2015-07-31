@@ -58,6 +58,16 @@ try {
                 if($val == 'true' || $val === true) $val='1';
                 $obj->set($k, $val);
                 $obj->set('done','changed');
+                $user = $modx->getUser();
+                if ($user) {
+                    $profile = $user->getOne('Profile');
+                    if ($profile) {
+                        $email=$profile->get('email');
+                        if($email){
+                            $obj->set('email',$email);
+                        }
+                    }
+                }
             }
             $res=$obj->save();
             $response['done']=$res;

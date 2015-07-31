@@ -27,12 +27,17 @@ $user=array(
 );
 
 $db=new Database($pdoconfig);
-$task=$db->getOne('getresponse_tasks','new','state');
-//print_r($task);
+$task=$db->getOne('modx_maillists','changed','done','id,internalKey,done,free_webinars,knowledge_base,events');
+print_r($task);
 
-$subscriptions=array(
-    'test1'     => 1
-);
+// Теперь на что подписываем
+$subscript=array();
+foreach($task as $k => $v){
+    $f=translate_field($k);
+    if($f) $subscript[$f]=$v;
+}
+print_r($subscript);
+exit(0);
 
 test($user,$subscriptions);
 //set_subscription($user,$subscriptions);
@@ -57,10 +62,8 @@ function translate_field($field, $dir='form-id'){
             return $campaigns[$field];
         case 'form-id':
             return $campaign_ids[$campaigns[$field]];
-        default:
-            return $campaigns[$field];
     }
-    return 'not_found';
+    return false;
 }
 
 
