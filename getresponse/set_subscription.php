@@ -26,10 +26,6 @@ $db=new Database($pdoconfig);
 $task=$db->getOne('modx_maillists','changed','done','id,internalKey,done,name,email,free_webinars,knowledge_base,events');
 if(empty($task)) exit(0);
 
-$campaign_name='dead';
-if(DEBUG) $task['email']='tester3@effetto.pro';
-print_r($task);
-
 // Теперь на что подписываем
 $subscript=array();
 foreach($task as $k => $v){
@@ -42,7 +38,9 @@ foreach($task as $k => $v){
 }
 
 //test($task,$subscript);
-set_subscription($task,$subscript);
+set_subscription($task,$subscript, $db);
+
+
 
 
 /* Функции
@@ -68,7 +66,7 @@ function test($task, $subscript){
 //    var_dump(getresponse_delete_email($task, $account, $rpcClient));
 }
 
-function set_subscription($task, $subscript){
+function set_subscription($task, $subscript, &$db){
     require_once(API_CORE_PATH.'/config/getresponse.private.config.php');
     $account=$getresponse_config;
 
@@ -143,10 +141,9 @@ function set_subscription($task, $subscript){
                 var_dump($res);
             }
         }
-
-
     }
 
+    $db->updateOne('modx_maillists', $task['id'], array('done' => 'done'));
 }
 
 
