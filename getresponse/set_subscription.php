@@ -88,6 +88,13 @@ function set_subscription($task, $subscript){
             }
         }
     }else{
+        foreach($contacts as $k=>&$v){
+            $v['contact_id']=$k;
+        }
+        if(DEBUG) {
+            print "Найдены контакты:\n";
+            print_r($contacts);
+        }
         // Запоминаем куда подписан
         $subscribed_arr=array();
         foreach($contacts as $contact){
@@ -118,6 +125,16 @@ function set_subscription($task, $subscript){
             print "Отписать:\n";
             print_r($off_arr);
         }
+        // Отписываем
+        foreach($contacts as $c){
+            if(in_array($c['campaign'], $off_arr)) {
+                $res=getresponse_delete_contact($c['contact_id'], $account, $rpcClient);
+                if (DEBUG) {
+                    print "Результат отписки:\n";
+                    print_r($res);
+                }
+            }
+        }
         // Подписываем
         foreach($on_arr as $cid){
             $res=getresponse_add_contact_to_cid($task, $cid, $account, $rpcClient);
@@ -126,7 +143,7 @@ function set_subscription($task, $subscript){
                 var_dump($res);
             }
         }
-        // Отписываем
+
 
     }
 
