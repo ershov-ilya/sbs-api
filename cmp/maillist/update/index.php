@@ -65,8 +65,8 @@ try {
                 if ($profile) {
                     $email=$profile->get('email');
                     $obj->set('email',$email);
-                    $name=$profile->get('fullname');
-                    $obj->set('name',$name);
+                    $fullname=$profile->get('fullname');
+                    $obj->set('name',$fullname);
                 }
             }
             $res=$obj->save();
