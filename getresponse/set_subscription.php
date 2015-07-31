@@ -16,12 +16,19 @@ defined('DEBUG') or define('DEBUG', true);
 
 define('API_ROOT',dirname(dirname($_SERVER['SCRIPT_FILENAME'])));
 require_once(API_ROOT.'/core/config/core.config.php');
+require_once(API_ROOT.'/core/config/pdo.config.php');
+require_once(API_CORE_PATH.'/class/format/format.class.php');
+require_once(API_CORE_PATH.'/class/database/database.class.php');
 
 $user=array(
     'name'      => 'Tester',
     'email'     => 'tester@effetto.pro',
     'campaign'  => 'test1'
 );
+
+$db=new Database($pdoconfig);
+$task=$db->getOne('getresponse_tasks','new','state');
+//print_r($task);
 
 $subscriptions=array(
     'test1'     => 1

@@ -14,10 +14,26 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 defined('DEBUG') or define('DEBUG', true);
 
-define('ALLOW_IP', '10.12.82.18');
-if($_SERVER['REMOTE_ADDR'] != ALLOW_IP ) exit(0);
+$allow_ips=array('91.212.151.250','10.12.82.26');
+if( !in_array($_SERVER['REMOTE_ADDR'], $allow_ips) ) die('Нельзя '.$_SERVER['REMOTE_ADDR']);
+
+function parseRequestHeaders() {
+    $headers = array();
+    foreach($_SERVER as $key => $value) {
+        if (substr($key, 0, 5) <> 'HTTP_') {
+            continue;
+        }
+        $header = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($key, 5)))));
+        $headers[$header] = $value;
+    }
+    return $headers;
+}
+$headers = parseRequestHeaders();
 
 print('Request method: '.$_SERVER['REQUEST_METHOD'].PHP_EOL);
+
+print "HEADERS: \n";
+print_r($headers);
 
 if(!empty($_GET)) {
     print("GET:\n");
