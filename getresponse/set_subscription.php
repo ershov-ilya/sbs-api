@@ -103,7 +103,14 @@ function set_subscription($task, $subscript){
         $on_arr=array();
         $off_arr=array();
         foreach($subscript as $need){
-//            if(){}
+            if(!in_array($need['id'], $subscribed_arr) && $need['set']==1){
+                // Подписать
+                $on_arr[]=$need['id'];
+            }
+            if(in_array($need['id'], $subscribed_arr) && $need['set']==0){
+                // Отписать
+                $off_arr[]=$need['id'];
+            }
         }
         if(DEBUG) {
             print "Подписать:\n";
@@ -111,6 +118,16 @@ function set_subscription($task, $subscript){
             print "Отписать:\n";
             print_r($off_arr);
         }
+        // Подписываем
+        foreach($on_arr as $cid){
+            $res=getresponse_add_contact_to_cid($task, $cid, $account, $rpcClient);
+            if(DEBUG) {
+                print "Add ".$task['email'].' to '.$cid.' Result:'.PHP_EOL;
+                var_dump($res);
+            }
+        }
+        // Отписываем
+
     }
 
 }
