@@ -16,13 +16,12 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 defined('DEBUG') or define('DEBUG', true);
 
-require_once(API_CORE_PATH.'/class/format/format.class.php');
-require_once(API_CORE_PATH.'/class/database/database.class.php');
-require_once(API_CORE_PATH.'/config/pdo.config.php');
+require_once(API_CORE_PATH.'/config/smsc.private.config.php');
+require_once(API_ROOT_PATH.'/smsc/send.func.php');
 
-$output='';
-$output.=$_SERVER['REQUEST_METHOD'].' '.date('Y-m-d d:i:s').' FROM '.$_SERVER['SERVER_ADDR'].PHP_EOL;
-$output.=Format::parse($_POST,'plain');
-$output.=PHP_EOL.PHP_EOL;
-
-file_put_contents('smsc.log', $output, FILE_APPEND);
+$data=array(
+    'mes' => 'API test',
+    'phone' => '+79257123457'
+);
+$res=send_sms($data, $smsc_config);
+var_dump($res);
