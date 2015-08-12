@@ -14,7 +14,7 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 defined('DEBUG') or define('DEBUG', true);
 
-$allow_ips=array('91.212.151.250','10.12.82.26');
+$allow_ips=array('91.212.151.250','10.12.82.26', '10.12.81.31');
 if( !in_array($_SERVER['REMOTE_ADDR'], $allow_ips) ) die('Нельзя '.$_SERVER['REMOTE_ADDR']);
 
 function parseRequestHeaders() {
@@ -35,6 +35,11 @@ print('Request method: '.$_SERVER['REQUEST_METHOD'].PHP_EOL);
 print "HEADERS: \n";
 print_r($headers);
 
+if(!empty($_FILES)) {
+    print("FILES:\n");
+    print_r($_FILES);
+}
+
 if(!empty($_GET)) {
     print("GET:\n");
     print_r($_GET);
@@ -44,6 +49,7 @@ if(!empty($_POST)) {
     print("POST:\n");
     print_r($_POST);
 }
+
 if($_SERVER['REQUEST_METHOD'] == 'PUT') {
     echo "PUT:\n";
     parse_str(file_get_contents("php://input"),$post_vars);
