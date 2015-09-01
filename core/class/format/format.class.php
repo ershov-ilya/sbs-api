@@ -101,6 +101,7 @@ class Format
         foreach($arr as $key => $val)
         {
             $index++;
+            if(gettype($val)=='object') $val=(array)$val;
             if(is_array($val))
             {
                 $output .= Format::keyValue($val, $equal, $wrap, $delim, $encode, $key);
@@ -130,6 +131,7 @@ class Format
         // Удаляем вложенные массивы
         foreach($arr as $key => $val)
         {
+            if(gettype($val)=='object') $val=(array)$val;
             if(is_array($val))
             {
                 unset($arr[$key]);
@@ -170,16 +172,17 @@ class Format
         $output .= "array(\n";
         foreach($arr as $key => $val)
         {
+            if(gettype($val)=='object') $val=(array)$val;
             if(is_array($val))
             {
-                $output .= $padding.$indent.'"'.$key.'" => ';
+                $output .= $padding.$indent."'".$key."' => ";
                 $output .= Format::phpArray($val, $indent, $key, $level+1);
                 $output .= $padding.$indent.')';
             }
             else
             {
                 $output .= $padding.$indent;
-                $output .= '"'.$key.'" => ';
+                $output .= "'".$key."' => ";
 
                 $value_type=gettype($val);
                 if($value_type=='integer' || $value_type=='double')
@@ -188,7 +191,7 @@ class Format
                 }
                 else
                 {
-                    $output .= '"'.$val.'"';
+                    $output .= "'".$val."'";
                 }
             }
 
