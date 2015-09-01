@@ -21,7 +21,7 @@ require_once(API_ROOT.'/core/config/pdo.config.php');
 //require_once(API_CORE_PATH.'/class/format/format.class.php');
 require_once(API_CORE_PATH.'/class/database/database.class.php');
 define('INCLUSION', true);
-require_once(API_ROOT_PATH.'/getresponse/set_subscription.php');
+require_once(API_ROOT_PATH.'/getresponse/func/set_subscription.php');
 
 
 $db=new Database($pdoconfig);

@@ -21,7 +21,7 @@ require_once(API_ROOT.'/core/config/core.config.php');
 require_once(API_ROOT.'/core/config/pdo.config.php');
 require_once(API_CORE_PATH.'/class/format/format.class.php');
 require_once(API_CORE_PATH.'/class/database/database.class.php');
-require_once(API_ROOT_PATH.'/getresponse/get_message_contents.php');
+require_once(API_ROOT_PATH.'/getresponse/func/get_message_contents.php');
 
 //$messages=get_messages();
 //print_r($messages);
