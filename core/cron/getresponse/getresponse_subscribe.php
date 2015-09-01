@@ -9,10 +9,12 @@
  * Time: 15:03
  */
 
-//define('DEBUG', true);
 header('Content-Type: text/plain; charset=utf-8');
-//error_reporting(E_ALL);
-//ini_set("display_errors", 1);
+if(isset($_GET['t'])) define('DEBUG', true);
+if(DEBUG) {
+    error_reporting(E_ALL);
+    ini_set("display_errors", 1);
+}
 defined('DEBUG') or define('DEBUG', false);
 
 define('API_ROOT',dirname(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME'])))));
@@ -21,12 +23,17 @@ require_once(API_ROOT.'/core/config/pdo.config.php');
 //require_once(API_CORE_PATH.'/class/format/format.class.php');
 require_once(API_CORE_PATH.'/class/database/database.class.php');
 define('INCLUSION', true);
+require_once(API_ROOT_PATH.'/getresponse/func/jsonRPCClient.php');
 require_once(API_ROOT_PATH.'/getresponse/func/set_subscription.php');
 
 
 $db=new Database($pdoconfig);
 $task=$db->getOne('modx_maillists','changed','done','id,internalKey,done,name,email,free_webinars,knowledge_base,events');
 if(empty($task)) exit(0);
+
+if(DEBUG) {
+    print_r($task);
+}
 
 // Теперь на что подписываем
 $subscript=array();
@@ -37,6 +44,11 @@ foreach($task as $k => $v){
         'name'  => $k,
         'set'   => $v
     );
+}
+
+if(DEBUG) {
+    print_r($subscript);
+    die;
 }
 
 //test($task,$subscript);

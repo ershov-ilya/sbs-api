@@ -33,8 +33,8 @@ require_once(API_ROOT_PATH . '/getresponse/func/set_subscription.php');
 
 try {
     // Парсинг параметров
-    $rest = new RESTful('subscription_unset','ids');
-    if(empty($rest->data['ids'])) throw new Exception('No ids passed', 400);
+    $rest = new RESTful('subscription_unset','id',array('id'=>FILTER_SANITIZE_STRING));
+    if(empty($rest->data['id'])) throw new Exception('No ID passed', 400);
 
     // Инициализация клиента
     $account=$getresponse_config;
@@ -42,12 +42,18 @@ try {
 
     // Вычислительный процесс
     // Список клиентов
-
-
+    $data = $rpcClient->delete_contact(
+        $account['key'],
+        array(
+            # find by name literally
+            'contact' => $rest->data['id']
+        )
+    );
 }
 catch(Exception $e){
     $response['message']=$e->getMessage();
     $response['code']=$e->getCode();
+    if(empty($response['code'])) $response['code']=404;
 }
 
 $response['data']=$data;

@@ -22,6 +22,7 @@ if(!INCLUSION) {
     require_once(API_ROOT . '/core/config/pdo.config.php');
 //require_once(API_CORE_PATH.'/class/format/format.class.php');
     require_once(API_CORE_PATH . '/class/database/database.class.php');
+    require_once(API_ROOT_PATH.'/getresponse/func/jsonRPCClient.php');
 
 
     $db = new Database($pdoconfig);
@@ -72,7 +73,7 @@ function set_subscription($task, $subscript, &$db){
     require_once(API_CORE_PATH.'/config/getresponse.private.config.php');
     $account=$getresponse_config;
 
-    require_once(API_ROOT_PATH.'/getresponse/jsonRPCClient.php');
+    require_once(API_ROOT_PATH.'/getresponse/func/jsonRPCClient.php');
     $rpcClient = new jsonRPCClient($getresponse_config['url']);
 
     $contacts=getresponse_get_contacts($task, $account, $rpcClient);
@@ -166,9 +167,11 @@ function translate_field($field, $dir='form-id'){
 
     switch($dir){
         case 'form-campaign':
-            return $campaigns[$field];
+            if(isset($campaigns[$field])) return $campaigns[$field];
+            break;
         case 'form-id':
-            return $campaign_ids[$campaigns[$field]];
+            if(isset($campaigns[$field]) && isset($campaign_ids[$campaigns[$field]])) return $campaign_ids[$campaigns[$field]];
+            break;
     }
     return false;
 }
