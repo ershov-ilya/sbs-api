@@ -54,7 +54,7 @@ function test($task, $subscript){
     require_once(API_CORE_PATH.'/config/getresponse.private.config.php');
     $account=$getresponse_config;
 
-    require_once(API_ROOT_PATH.'/getresponse/jsonRPCClient.php');
+    require_once(API_ROOT_PATH.'/getresponse/func/jsonRPCClient.php');
     $rpcClient = new jsonRPCClient($getresponse_config['url']);
 
 //    var_dump(getresponse_add_contact_to_cid($task, 'J', $account, $rpcClient));

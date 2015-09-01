@@ -21,6 +21,9 @@ require_once(API_CORE_PATH.'/class/restful/restful.class.php');
 require_once(API_ROOT_PATH.'/getresponse/func/get_subscriptions.php');
 require_once(API_ROOT_PATH . '/getresponse/func/curl_request.php');
 
+define('INCLUSION', true);
+require_once(API_ROOT_PATH . '/getresponse/func/set_subscription.php');
+
 //print_r($_SERVER);
 //die;
 $rest = new RESTful('subscriptions','email');
