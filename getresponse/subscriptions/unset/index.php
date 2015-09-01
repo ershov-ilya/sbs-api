@@ -49,6 +49,10 @@ try {
             'contact' => $rest->data['id']
         )
     );
+    if(!empty($data['deleted'])) {
+        $response['code'] = 200;
+        $response['message'] = 'deleted';
+    }
 }
 catch(Exception $e){
     $response['message']=$e->getMessage();
