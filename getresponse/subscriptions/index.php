@@ -16,11 +16,17 @@ defined('DEBUG') or define('DEBUG', true);
 $response=array();
 $format='php';
 
-require_once('../../../core/config/core.config.php');
+require_once('../../core/config/core.config.php');
+require_once(API_CORE_PATH.'/class/restful/restful.class.php');
 require_once(API_ROOT_PATH.'/getresponse/func/get_subscriptions.php');
 require_once(API_ROOT_PATH . '/getresponse/func/curl_request.php');
+
+//print_r($_SERVER);
+//die;
+$rest = new RESTful('subscriptions','email');
+
 try {
-    $response['data']=get_subscriptions('ershov.ilya@gmail.com');
+    $response['data']=get_subscriptions($rest->data);
 }
 catch(Exception $e){
     $response['message']=$e->getMessage();

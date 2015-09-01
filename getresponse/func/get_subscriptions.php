@@ -9,9 +9,10 @@
  * Time: 12:24
  */
 
-function get_subscriptions($email='')
+function get_subscriptions($data)
 {
-    if(empty($email)) return false;
+    if(empty($data['email'])) throw new Exception('No email passed', 400);
+    $email=$data['email'];
     require(API_CORE_PATH . '/config/getresponse.private.config.php');
     require_once(API_CORE_PATH . '/config/getresponse.private.config.php');
     require_once(API_ROOT_PATH . '/getresponse/func/curl_request.php');
