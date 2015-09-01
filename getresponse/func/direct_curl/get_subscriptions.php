@@ -15,7 +15,7 @@ function get_subscriptions($data)
     $email=$data['email'];
     require(API_CORE_PATH . '/config/getresponse.private.config.php');
     require_once(API_CORE_PATH . '/config/getresponse.private.config.php');
-    require_once(API_ROOT_PATH . '/getresponse/func/curl_request.php');
+    require_once(API_ROOT_PATH . '/getresponse/func/direct_curl/curl_request.php');
 
     $api_key = $getresponse_config['key'];
     $api_method = 'get_messages';

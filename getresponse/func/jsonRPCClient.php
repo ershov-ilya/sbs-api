@@ -271,8 +271,8 @@ class jsonRPCClient
         $debug .= $pAdd;
         // get starttime
         $startTime = empty($startTime) ? array_sum(explode(' ', microtime())) : $startTime;
-        if (true === $pShow and !empty($debug))
-        {
+        if ($pShow === true && !empty($debug))
+        {
             // get endtime
             $endTime = array_sum(explode(' ', microtime()));
             // performance summary
