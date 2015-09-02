@@ -10,8 +10,8 @@
  */
 
 // TODO: Access-Control-Allow-Origin
-//header("Access-Control-Allow-Origin: http://sbs.edu.ru");
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: http://sbs.edu.ru");
+//header("Access-Control-Allow-Origin: *");
 
 // Errors control
 header('Content-Type: text/plain; charset=utf-8');

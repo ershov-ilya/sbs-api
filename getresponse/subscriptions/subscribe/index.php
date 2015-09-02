@@ -33,6 +33,9 @@ define('INCLUSION', true);
 require_once(API_ROOT_PATH . '/getresponse/func/set_subscription.php');
 
 try {
+    if(!DEBUG) throw new Exception('Not Implemented', 501);
+    if(DEBUG) die;
+
     // Парсинг параметров
     $rest = new RESTful('subscriptions','email,contact_id');
     if(empty($rest->data['email'])) throw new Exception('No email passed', 400);
