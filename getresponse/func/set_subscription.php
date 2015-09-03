@@ -172,6 +172,10 @@ function translate_field($field, $dir='form-id'){
         case 'form-id':
             if(isset($campaigns[$field]) && isset($campaign_ids[$campaigns[$field]])) return $campaign_ids[$campaigns[$field]];
             break;
+        case 'campaign-id':
+            if(isset($campaign_ids[$field])) return $campaign_ids[$field];
+            else return $field;
+        break;
     }
     return false;
 }
