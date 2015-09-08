@@ -26,7 +26,7 @@ require('../../../../index.php');
 $props = array(
     "includeTVs" => 'lecture_theme,speaker,photo,view_count',
     "showHidden" => 0,
-    'parents'=>'929',
+    'parents'=>'929,1650',
     'tpl' => 'v3.bz.main-carousel.tpl',
     'where' => "template IN ('41','27','52')",
     'limit' => 12,
