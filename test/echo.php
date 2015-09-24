@@ -14,7 +14,7 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 defined('DEBUG') or define('DEBUG', true);
 
-$allow_ips=array('91.212.151.250','10.12.82.26', '10.12.81.31', '10.12.150.23');
+$allow_ips=array('91.212.151.250','10.12.82.26', '10.12.81.31', '10.12.150.23', '10.12.150.32');
 if( !in_array($_SERVER['REMOTE_ADDR'], $allow_ips) ) die('Нельзя '.$_SERVER['REMOTE_ADDR']);
 
 function parseRequestHeaders() {
@@ -65,8 +65,8 @@ if(!empty($_COOKIE)) {
     print_r($cookie);
 }
 
-//print("\nSERVER:\n");
-//print_r($_SERVER);
+print("\nSERVER:\n");
+print_r($_SERVER);
 
 //print("\nREQUEST:\n");
 //print_r($_REQUEST);

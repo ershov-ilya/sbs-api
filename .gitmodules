@@ -10,3 +10,6 @@
 [submodule "assets/js/form-autofill"]
 	path = assets/js/form-autofill
 	url = git@github.com:ershov-ilya/form-autofill.git
+[submodule "test/tp"]
+	path = test/tp
+	url = git@github.com:ershov-ilya/tracking-pixel-php.git
